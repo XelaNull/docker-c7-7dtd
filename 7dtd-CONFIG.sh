@@ -1,5 +1,7 @@
 #!/bin/bash
-
+#
+# This file is called by install_7dtd.sh after an installation or upgrade of the 7DTD application software
+#
 /replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_01.xml downtown "commercial,downtown" Zoning
 /replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_02.xml downtown "commercial,downtown" Zoning
 /replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_03.xml downtown "commercial,downtown" Zoning
