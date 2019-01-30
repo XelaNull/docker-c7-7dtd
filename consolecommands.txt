@@ -1,0 +1,68 @@
+Initial Admin Connecting:
+admin add YOURCHARACTERNAME 0
+
+Check in-game help for further details and instructions (help <commandname>)
+https://7dtd.illy.bz/wiki/Server%20fixes#Newconsolecommands
+CommandExtensions mod:
+   give, listitems, listknownplayers, listlandprotection, removelandprotection, reply, sayplayer, showinventory 
+
+WebAndMapRendering mod:
+   openiddebug, enablerendering, reloadwebpermissions, rendermap, webpermission, webtokens 
+
+--------
+
+
+
+--------
+
+Bad Company:
+bc-admins => (BCM) Admins - Provides information on admins, bans, whitelist, and other admin details
+bc-assets => (BCM) Assets - Provides info on game resources and assets
+bc-block, block => (BCM) World Blocks - Insert, report on, and swap blocks within the area
+bc-blockrpc, blockrpc => (BCM) World Blocks - Similar to World Blocks but using RPC (remote procedure call) instead of chunk reloading to update the clients, single block only
+bc-chatcolor => (BCM) ChatColor - Change the chat color for a player
+bc-chatmax => (BCM) Max Chat Length - Limits the length of text that can be sent to the chat output
+bc-chatprefix, bc-prefix => (BCM) Hide Chat Commands Prefix - Hide chat commands that start with the given prefix
+bc-chunks, bc-cc => (BCM) Active Chunks - Information about the chunks loaded by the server
+bc-co => (BCM) Chunk Observer - Command for controlling dynamic chunk observers and loading chunk areas
+bc-debuff => (BCM) Remove Buffs From Entities - Removes a buff from an entity or type of entity
+bc-debuffplayer => (BCM) Remove Buffs From Players - Removes a buff from an online player
+bc-entities, bc-le => (BCM) Entities - Provides information about all entities in the game
+bc-events, bc-config => (BCM) Events - Edit event system configuration and report settings and data
+bc-export, export => (BCM) Export - Creates a tts prefab file of the defined location
+bc-geb, buffentity => (BCM) Give Buffs to Entities - Buffs the entity or type of entity with the given buff
+bc-getspawn => (BCM) Get Spawn - Gets a valid spawn point at the given x,z. Also loads the chunk
+bc-give => (BCM) Give Items to Players - Gives the targeted player items into inventory
+bc-givequest => (BCM) Give Quests To Players - Grants the remote player(s) the given quest
+bc-go => (BCM) Game Objects - Provides detailed information about the game objects such as blocks, items and recipes
+bc-gpb, buffplayer => (BCM) Give Buffs to Players - Buffs the remote player with the given buff
+bc-gs => (BCM) Players Gamestages - Alias for BCPlayers
+bc-help => (BCM) BCHelp - Provides a list of all active BCM commands, and info about /options
+bc-id => (BCM) Players Ids - Alias for BCPlayers
+bc-import, import => (BCM) Import - Loads a prefab from disk into the world, and activates sleeper spawns
+bc-loc, loc => (BCM) Location - Gets your current position and stores it in cache for use in other commands
+bc-lp => (BCM) Players - Provides extensive information about all players
+bc-manager => (BCM) Horde Spawners - Gets information about the spawn manager system such as active spawns and spawncounts
+bc-mute => (BCM) Mute Players - Mutes or unmutes a player in global chat
+bc-party => (BCM) Parties - Information about the player parties on the server
+bc-pdf => (BCM) Player Files - Player data file information, such as steamid, last online, last write.
+bc-playername, bc-pn => (BCM) PlayerName - Provides options to override names or append a prefix to a group of players
+bc-pos, bc-lppos => (BCM) Players Positions - Alias for BCPlayers
+bc-prefab => (BCM) Prefab - Edit existing prefabs on the server
+bc-protect, protect => (BCM) Protect - Add or remove trader protection to an area
+bc-remove => (BCM) Remove - Removes the selected entities from the game by unloading them
+bc-removequest => (BCM) Remove Quests From Players - Removes an in progress quest from the player
+bc-setskill, setskill => (BCM) Set Skills On Players - Allows you to directly set skill levels on a player while they are online
+bc-sleeper => (BCM) Sleeper - Display and manipulate the sleeper volumes in prefabs
+bc-spawn => (BCM) Spawn - Spawns entities with definable targets and groups/classes and horde counts
+bc-task => (BCM) Task - Reports running subthread tasks
+bc-teleport, bc-move, move => (BCM) Teleport - Move target entity etc to a new location
+bc-test => (BCM) Test - Catchall command for testing new features
+bc-tile, tile => (BCM) Tile Entity - Perform actions on the tile entities (loot containers and doors) in the area
+bc-time => (BCM) Time - Provides server time, ticks, fps, clients, entities
+bc-trash => (BCM) Mem Trash - Runs Garbage Collection to try and free up Memory on the server
+bc-undo => (BCM) Undo - Reverts the previous world editing command
+bc-unlockall => (BCM) Unlock All - An alias for 'tile access'
+bc-version => (BCM) Versions - Information about the mods installed on the server
+bc-visitregion, visit => (BCM) Visit Region - Visits the region(s) given and reveals the map 
+
