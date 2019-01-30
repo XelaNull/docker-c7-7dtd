@@ -35,15 +35,8 @@ wget https://github.com/dmustanger/7dtd-ServerTools/releases/download/12.7/7dtd-
 # install to:  \Mods\Allocs_WebAndMapRendering\webserver\js
 
 echo "Applying CUSTOM CONFIGS against application default files"
+/7dtd-CONFIG.sh
 
-/replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_01.xml downtown "commercial,downtown" Zoning
-/replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_02.xml downtown "commercial,downtown" Zoning
-/replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_03.xml downtown "commercial,downtown" Zoning
-/replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_04.xml downtown "commercial,downtown" Zoning
-
-# Move into place any .defaults files
-#rm -rf /data/7DTD/serverconfig.xml && cp /serverconfig.xml.default /data/7DTD/serverconfig.xml
-#rm -rf /data/7DTD/Data/Config/rwgmixer.xml && cp /rwgmixer.xml.default /data/7DTD/Data/Config/rwgmixer.xml
 chown steam:steam $INSTALL_DIR /home/steam -R
 echo "Stopping 7DTD to kick off new world generation (if name changes)"
 /stop_7dtd.sh
