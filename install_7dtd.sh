@@ -2,17 +2,15 @@
 export INSTALL_DIR=/data/7DTD
 
 # Ensure critical environmental variables are present
-if [[ -z $STEAMCMD_LOGIN ]] || [[ -z $STEAMCMD_PASSWORD ]] || \
-   [[ -z $STEAMCMD_APP_ID ]]|| [[ -z $INSTALL_DIR ]]; then
+if [[ -z $STEAMCMD_LOGIN ]] || [[ -z $STEAMCMD_PASSWORD ]] || [[ -z $STEAMCMD_APP_ID ]]|| [[ -z $INSTALL_DIR ]]; then
   echo "Missing one of the environmental variables: STEAMCMD_LOGIN, STEAMCMD_PASSWORD, STEAMCMD_APP_ID, INSTALL_DIR"
   exit 1
 fi
 set -e
 
 # Set up the installation directory
-[[ ! -d $INSTALL_DIR ]] && mkdir $INSTALL_DIR
-chown steam:steam $INSTALL_DIR /home/steam -R
-
+[[ ! -d $INSTALL_DIR ]] && mkdir $INSTALL_DIR; chown steam:steam $INSTALL_DIR /home/steam -R
+# Set up extra variables we will use, if they are present
 [ -z "$STEAMCMD_NO_VALIDATE" ]   && validate="validate"
 [ -n "$STEAMCMD_BETA" ]          && beta="-beta $STEAMCMD_BETA"
 [ -n "$STEAMCMD_BETA_PASSWORD" ] && betapassword="-betapassword $STEAMCMD_BETA_PASSWORD"
