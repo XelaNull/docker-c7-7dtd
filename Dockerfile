@@ -63,7 +63,6 @@ spawn telnet localhost 8081\nexpect "Please enter password:"\nsend "sanity\r";\n
 send "$1\r"\nsend "exit\r";\nsleep 1\nexpect eof' > /7dtd-sendcmd.sh
 
 COPY 7dtd-startloop.sh /7dtd-startloop.sh
-COPY 7dtd-sendcmd.sh /7dtd-sendcmd.sh
 COPY 7dtd-rendermap.sh /7dtd-rendermap.sh
 COPY rwgmixer.xml /rwgmixer.xml.default
 COPY serverconfig.xml /serverconfig.xml.default
