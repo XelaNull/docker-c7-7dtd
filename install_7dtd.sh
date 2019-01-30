@@ -33,13 +33,14 @@ wget https://github.com/dmustanger/7dtd-ServerTools/releases/download/12.7/7dtd-
 # https://confluence.catalysm.net/download/attachments/1114446/map.js?version=1&modificationDate=1548000113141&api=v2&download=true
 # install to:  \Mods\Allocs_WebAndMapRendering\webserver\js
 
+/replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_01.xml downtown "commercial,downtown" Zoning
+/replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_02.xml downtown "commercial,downtown" Zoning
+/replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_03.xml downtown "commercial,downtown" Zoning
+/replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_04.xml downtown "commercial,downtown" Zoning
+
 # Move into place any .defaults files
-rm -rf /data/7DTD/serverconfig.xml && cp /serverconfig.xml.default /data/7DTD/serverconfig.xml
-rm -rf /data/7DTD/Data/Config/rwgmixer.xml && cp /rwgmixer.xml.default /data/7DTD/Data/Config/rwgmixer.xml
-rm -rf /data/7DTD/Data/Prefabs/skyscraper_01.xml && cp /skyscraper_01.xml.default /data/7DTD/Data/Prefabs/skyscraper_01.xml
-rm -rf /data/7DTD/Data/Prefabs/skyscraper_02.xml && cp /skyscraper_02.xml.default /data/7DTD/Data/Prefabs/skyscraper_02.xml
-rm -rf /data/7DTD/Data/Prefabs/skyscraper_03.xml && cp /skyscraper_03.xml.default /data/7DTD/Data/Prefabs/skyscraper_03.xml
-rm -rf /data/7DTD/Data/Prefabs/skyscraper_04.xml && cp /skyscraper_04.xml.default /data/7DTD/Data/Prefabs/skyscraper_04.xml
+#rm -rf /data/7DTD/serverconfig.xml && cp /serverconfig.xml.default /data/7DTD/serverconfig.xml
+#rm -rf /data/7DTD/Data/Config/rwgmixer.xml && cp /rwgmixer.xml.default /data/7DTD/Data/Config/rwgmixer.xml
 chown steam:steam $INSTALL_DIR /home/steam -R
 /stop_7dtd.sh
 echo "Completed Installation."
