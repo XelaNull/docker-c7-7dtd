@@ -2,7 +2,7 @@
 <ServerSettings>
   <property name="ServerPort" 				value="26900"/>				<!-- Port you want the server to listen on. -->
   <property name="ServerVisibility"			value="2"/>					<!-- Visibility of this server: 2 = public, 1 = only shown to friends, 0 = not listed. As you are never friend of a dedicated server setting this to "1" will only work when the first player connects manually by IP. -->
-  <property name="ServerName" 				value="Sanitys Edge"/>		<!-- Whatever you want the name of the server to be. -->
+  <property name="ServerName" 				value="Darkness"/>		<!-- Whatever you want the name of the server to be. -->
   <property name="ServerPassword" 			value=""/>					<!-- Password to gain entry to the server -->
   <property name="ServerMaxPlayerCount" 	value="24"/>					<!-- Maximum Concurrent Players -->
   <property name="ServerReservedSlots"		value="0"/>					<!-- Out of the MaxPlayerCount this many slots can only be used by players with a specific permission level -->
