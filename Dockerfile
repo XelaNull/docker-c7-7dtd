@@ -71,6 +71,9 @@ COPY install_7dtd.sh /install_7dtd.sh
 COPY 7dtd-APPLY-CONFIG.sh /7dtd-APPLY-CONFIG.sh
 COPY replace.sh /replace.sh
 
+# Install 7DTD Auto-Reveal Map
+RUN git clone https://github.com/XelaNull/7dtd-auto-reveal-map.git && chmod a+x /7dtd-auto-reveal-map/*.sh
+
 # Reconfigure Apache to run under steam username, to retain ability to modify steam's files
 RUN sed -i 's|User apache|User steam|g' /etc/httpd/conf/httpd.conf && \
     sed -i 's|Group apache|Group steam|g' /etc/httpd/conf/httpd.conf && \
@@ -88,7 +91,8 @@ RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh mysqld "/start_mysqld.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh crond "/start_crond.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
-    /gen_sup.sh 7dtd "/start_7dtd.sh" >> /etc/supervisord.conf
+    /gen_sup.sh 7dtd "/start_7dtd.sh" >> /etc/supervisord.conf && \
+    /gen_sup.sh 7dtd-startloop "/7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh" >> /etc/supervisord.conf
 
 RUN mkdir /data
 VOLUME ["/data"]
