@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# This file is meant to be used through lines you add/remove in the 7dtd-CONFIG.sh file
+#
 # This script is meant to aide in easily changing default values in a file.
 # It was written as I didn't want to fall into the same caveat that many other 
 # Dockerfile designers are, which is to have to supply full configuration files,
