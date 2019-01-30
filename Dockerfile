@@ -58,9 +58,10 @@ while true; do\n\
   echo "PLEASE RUN /init_steamcmd_7dtd.sh" && sleep 10\n\
 done\n' > /start_7dtd.sh
 RUN echo $'#!/bin/bash\n/7dtd-sendcmd.sh saveworld\n/7dtd-sendcmd.sh shutdown\n' > /stop_7dtd.sh
-RUN echo $'#!/usr/bin/expect\nset timeout 5\n\
-spawn telnet localhost 8081\nexpect "Please enter password:"\nsend "sanity\r";\n\
-send "$1\r"\nsend "exit\r";\nsleep 1\nexpect eof\nsend_user "Sent command to 7DTD: $1"\n' > /7dtd-sendcmd.sh
+#RUN echo $'#!/usr/bin/expect\nset timeout 5\n\
+#spawn telnet localhost 8081\nexpect "Please enter password:"\nsend "sanity\r";\n\
+#send "$1\r"\nsend "exit\r";\nsleep 1\nexpect eof\nsend_user "Sent command to 7DTD: $1"\n' > /7dtd-sendcmd.sh
+COPY 7dtd-sendcmd.sh /7dtd-sendcmd.sh
 
 COPY 7dtd-startloop.sh /7dtd-startloop.sh
 COPY 7dtd-rendermap.sh /7dtd-rendermap.sh
