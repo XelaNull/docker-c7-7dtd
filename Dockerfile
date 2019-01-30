@@ -57,22 +57,16 @@ while true; do\n\
   if [ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]; then sudo -u steam $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated; fi\n\
   echo "PLEASE RUN /init_steamcmd_7dtd.sh" && sleep 10\n\
 done' > /start_7dtd.sh
-RUN echo $'#!/usr/bin/expect\n\
-set timeout 5\n\
-spawn telnet localhost 8081\n\
-expect "Please enter password:"\n\
-send "sanity\r"; send "saveworld\r"; send "shutdown\r";\n\
-send "exit\r"; expect eof' > /stop_7dtd.sh
+RUN echo $'#!/bin/bash\n/7dtd-sendcmd.sh saveworld\n/7dtd-sendcmd.sh shutdown' > /stop_7dtd.sh
+RUN echo $'#!/usr/bin/expect\nset timeout 5\n\
+spawn telnet localhost 8081\nexpect "Please enter password:"\nsend "sanity\r";\n\
+send "$1\r"\nsend "exit\r";\nsleep 1\nexpect eof' > /7dtd-sendcmd.sh
 
 COPY 7dtd-startloop.sh /7dtd-startloop.sh
 COPY 7dtd-sendcmd.sh /7dtd-sendcmd.sh
 COPY 7dtd-rendermap.sh /7dtd-rendermap.sh
 COPY rwgmixer.xml /rwgmixer.xml.default
 COPY serverconfig.xml /serverconfig.xml.default
-COPY skyscraper_01.xml /skyscraper_01.xml.default
-COPY skyscraper_02.xml /skyscraper_02.xml.default
-COPY skyscraper_03.xml /skyscraper_03.xml.default
-COPY skyscraper_04.xml /skyscraper_04.xml.default
 
 # Reconfigure Apache to run under steam username, to retain ability to modify steam's files
 RUN sed -i 's|User apache|User steam|g' /etc/httpd/conf/httpd.conf && \
