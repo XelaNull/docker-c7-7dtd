@@ -1,9 +1,9 @@
 # CentOS7 Minimal
 FROM centos:7
 # Set the local timezone
-ENV TIMEZONE="America/New_York"
-# Set a unique cache serial
-ENV REFRESHED_AT="2019-01-28"
+ENV TIMEZONE="America/New_York" \
+    7DTD_TELNET_PORT="8081" \
+    7DTD_TELNET_PASSWORD="sanity"
 
 # Install daemon packages# Install base packages
 RUN yum -y install epel-release && yum -y install supervisor syslog-ng cronie \
@@ -18,8 +18,7 @@ gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB\ngpgcheck=1' > /etc/yum.repos
 # Create MySQL Start Script
 RUN echo $'#!/bin/bash\n\
 [[ `pidof /usr/sbin/mysqld` == "" ]] && /usr/bin/mysqld_safe &\n\
-sleep 5\n\
-export SQL_TO_LOAD="/mysql_load_on_first_boot.sql"\n\
+sleep 5\nexport SQL_TO_LOAD="/mysql_load_on_first_boot.sql"\n\
 while true; do\n\
   if [[ -e "$SQL_TO_LOAD" ]]; then /usr/bin/mysql -u root --password=\'\' < $SQL_TO_LOAD && mv $SQL_TO_LOAD $SQL_TO_LOAD.loaded; fi\n\
   sleep 10\n\
@@ -81,7 +80,7 @@ RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh mysqld "/start_mysqld.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh crond "/start_crond.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
-    /gen_sup.sh 7dtd "/start_7dtd.sh" >> /etc/supervisord.conf && \
+    /gen_sup.sh 7dtd "/start_7dtd.sh" >> /etc/supervisord.conf
 
 RUN mkdir /data
 VOLUME ["/data"]
