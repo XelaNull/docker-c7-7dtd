@@ -56,11 +56,11 @@ export INSTALL_DIR=/data/7DTD\n\
 while true; do\n\
   if [ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]; then sudo -u steam $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated; fi\n\
   echo "PLEASE RUN /init_steamcmd_7dtd.sh" && sleep 10\n\
-done' > /start_7dtd.sh
-RUN echo $'#!/bin/bash\n/7dtd-sendcmd.sh saveworld\n/7dtd-sendcmd.sh shutdown' > /stop_7dtd.sh
+done\n' > /start_7dtd.sh
+RUN echo $'#!/bin/bash\n/7dtd-sendcmd.sh saveworld\n/7dtd-sendcmd.sh shutdown\n' > /stop_7dtd.sh
 RUN echo $'#!/usr/bin/expect\nset timeout 5\n\
 spawn telnet localhost 8081\nexpect "Please enter password:"\nsend "sanity\r";\n\
-send "$1\r"\nsend "exit\r";\nsleep 1\nexpect eof' > /7dtd-sendcmd.sh
+send "$1\r"\nsend "exit\r";\nsleep 1\nexpect eof\nsend_user "Sent command to 7DTD: $1"\n' > /7dtd-sendcmd.sh
 
 COPY 7dtd-startloop.sh /7dtd-startloop.sh
 COPY 7dtd-rendermap.sh /7dtd-rendermap.sh
