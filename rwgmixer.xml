@@ -1007,7 +1007,7 @@
 				<property name="biomemap2.Range" value="0.1,0.2"/>
 				
 				<property name="biomemap3.Name" value="burnt_forest"/>
-				<property name="biomemap3.Range" value="0.1,0.2"/>
+				<property name="biomemap3.Range" value="0,0.1"/>
 				
 				<property name="biomemap4.Name" value="desert"/>
 				<property name="biomemap4.Range" value="0.25,.5"/>
