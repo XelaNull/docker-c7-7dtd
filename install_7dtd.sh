@@ -39,5 +39,5 @@ rm -rf /data/7DTD/Data/Prefabs/skyscraper_03.xml && cp /skyscraper_03.xml.defaul
 rm -rf /data/7DTD/Data/Prefabs/skyscraper_04.xml && cp /skyscraper_04.xml.default /data/7DTD/Data/Prefabs/skyscraper_04.xml
 chown steam:steam $INSTALL_DIR /home/steam -R
 echo "Completed Installation."
-
+/stop_7dtd.sh
 exec "$@"
