@@ -17,13 +17,14 @@ chown steam:steam $INSTALL_DIR /home/steam -R
 [ -n "$STEAMCMD_BETA" ]          && beta="-beta $STEAMCMD_BETA"
 [ -n "$STEAMCMD_BETA_PASSWORD" ] && betapassword="-betapassword $STEAMCMD_BETA_PASSWORD"
 
-echo "Running steamcmd"
+echo "Starting Steam to perform application install"
 sudo -u steam /home/steam/steamcmd.sh +login $STEAMCMD_LOGIN $STEAMCMD_PASSWORD \
   +force_install_dir $INSTALL_DIR \
   +app_update $STEAMCMD_APP_ID $beta $betapassword $validate \
   +quit
 
 # Install MODS
+echo "Installing 7DTD Mods"
 cd $INSTALL_DIR && wget http://botman.nz/Botman_Mods_A17.zip && unzip Botman_Mods_A17.zip
 cd $INSTALL_DIR/Mods && wget -O CSMM_Patrons.zip https://confluence.catalysm.net/download/attachments/1114182/CSMM_Patrons_8.9.2.zip?api=v2
 unzip CSMM_Patrons.zip
@@ -32,6 +33,8 @@ wget https://github.com/dmustanger/7dtd-ServerTools/releases/download/12.7/7dtd-
 
 # https://confluence.catalysm.net/download/attachments/1114446/map.js?version=1&modificationDate=1548000113141&api=v2&download=true
 # install to:  \Mods\Allocs_WebAndMapRendering\webserver\js
+
+echo "Applying CUSTOM CONFIGS against application default files"
 
 /replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_01.xml downtown "commercial,downtown" Zoning
 /replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_02.xml downtown "commercial,downtown" Zoning
@@ -42,6 +45,7 @@ wget https://github.com/dmustanger/7dtd-ServerTools/releases/download/12.7/7dtd-
 #rm -rf /data/7DTD/serverconfig.xml && cp /serverconfig.xml.default /data/7DTD/serverconfig.xml
 #rm -rf /data/7DTD/Data/Config/rwgmixer.xml && cp /rwgmixer.xml.default /data/7DTD/Data/Config/rwgmixer.xml
 chown steam:steam $INSTALL_DIR /home/steam -R
+echo "Stopping 7DTD to kick off new world generation (if name changes)"
 /stop_7dtd.sh
 echo "Completed Installation."
 exec "$@"
