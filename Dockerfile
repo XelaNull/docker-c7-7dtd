@@ -66,7 +66,7 @@ send "$command\r"\n\
 send "exit\r";\n\
 sleep 1\n\
 expect eof\n\
-send_user "Sent command to 7DTD: $command"' > /7dtd-sendcmd.sh
+send_user "Sent command to 7DTD: $command\n"' > /7dtd-sendcmd.sh
 COPY install_7dtd.sh /install_7dtd.sh
 COPY 7dtd-APPLY-CONFIG.sh /7dtd-APPLY-CONFIG.sh
 COPY replace.sh /replace.sh
