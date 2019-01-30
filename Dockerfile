@@ -64,6 +64,7 @@ expect "Please enter password:"\n\
 send "sanity\r"; send "saveworld\r"; send "shutdown\r";\n\
 send "exit\r"; expect eof' > /stop_7dtd.sh
 
+COPY 7dtd.sh /7dtd.sh
 COPY rwgmixer.xml /rwgmixer.xml.default
 COPY serverconfig.xml /serverconfig.xml.default
 COPY skyscraper_01.xml /skyscraper_01.xml.default

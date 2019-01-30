@@ -981,8 +981,8 @@
 			<module name="dithering" type="FastTurbulence">
 				<property name="sourceModule" value="scaleOutput"/>
 				<property name="frequency" value="0.25"/>
-				<property name="power" value="40"/>
-				<property name="roughness" value="3"/>
+				<property name="power" value="50"/>
+				<property name="roughness" value="4"/>
 			</module>
 			<module name="jiggle" type="FastTurbulence">
 				<property name="sourceModule" value="dithering"/>
@@ -998,19 +998,19 @@
 				<property name="sourceModule" value="clampOutput"/>
 				
 				<property name="biomemap0.Name" value="pine_forest"/>
-				<property name="biomemap0.Range" value="0.25,0.5"/>
+				<property name="biomemap0.Range" value="0.25,0.75"/>
 				
 				<property name="biomemap1.Name" value="snow"/>
-				<property name="biomemap1.Range" value="0,0.25"/>
+				<property name="biomemap1.Range" value=".15,0.3"/>
 				
 				<property name="biomemap2.Name" value="wasteland"/>
-				<property name="biomemap2.Range" value="0.5,0.65"/>
+				<property name="biomemap2.Range" value="0.1,0.2"/>
 				
 				<property name="biomemap3.Name" value="burnt_forest"/>
-				<property name="biomemap3.Range" value="0.65,0.75"/>
+				<property name="biomemap3.Range" value="0.1,0.2"/>
 				
 				<property name="biomemap4.Name" value="desert"/>
-				<property name="biomemap4.Range" value="0.75,1"/>
+				<property name="biomemap4.Range" value="0.25,.5"/>
 			</module>
 			
 			<output module="biomeOutput"/>

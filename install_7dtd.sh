@@ -11,7 +11,7 @@ set -e
 
 # Set up the installation directory
 [[ ! -d $INSTALL_DIR ]] && mkdir $INSTALL_DIR
-chown steam $INSTALL_DIR /home/steam -R
+chown steam:steam $INSTALL_DIR /home/steam -R
 
 [ -z "$STEAMCMD_NO_VALIDATE" ]   && validate="validate"
 [ -n "$STEAMCMD_BETA" ]          && beta="-beta $STEAMCMD_BETA"
@@ -28,9 +28,7 @@ cd $INSTALL_DIR && wget http://botman.nz/Botman_Mods_A17.zip && unzip Botman_Mod
 cd $INSTALL_DIR/Mods && wget -O CSMM_Patrons.zip https://confluence.catalysm.net/download/attachments/1114182/CSMM_Patrons_8.9.2.zip?api=v2
 unzip CSMM_Patrons.zip
 git clone https://github.com/djkrose/7DTD-ScriptingMod
-#wget https://github.com/dmustanger/7dtd-ServerTools/releases/download/12.7/7dtd-ServerTools-12.7.zip && unzip 7dtd-ServerTools-12.7.zip
-chown steam $INSTALL_DIR/Mods -R
-echo "Completed Installation."
+wget https://github.com/dmustanger/7dtd-ServerTools/releases/download/12.7/7dtd-ServerTools-12.7.zip
 
 # Move into place any .defaults files
 rm -rf /data/7DTD/serverconfig.xml && cp /serverconfig.xml.default /data/7DTD/serverconfig.xml
@@ -39,5 +37,7 @@ rm -rf /data/7DTD/Data/Prefabs/skyscraper_01.xml && cp /skyscraper_01.xml.defaul
 rm -rf /data/7DTD/Data/Prefabs/skyscraper_02.xml && cp /skyscraper_02.xml.default /data/7DTD/Data/Prefabs/skyscraper_02.xml
 rm -rf /data/7DTD/Data/Prefabs/skyscraper_03.xml && cp /skyscraper_03.xml.default /data/7DTD/Data/Prefabs/skyscraper_03.xml
 rm -rf /data/7DTD/Data/Prefabs/skyscraper_04.xml && cp /skyscraper_04.xml.default /data/7DTD/Data/Prefabs/skyscraper_04.xml
+chown steam:steam $INSTALL_DIR /home/steam -R
+echo "Completed Installation."
 
 exec "$@"
