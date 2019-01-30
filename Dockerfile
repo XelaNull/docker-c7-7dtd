@@ -66,6 +66,7 @@ COPY 7dtd-startloop.sh /7dtd-startloop.sh
 COPY 7dtd-rendermap.sh /7dtd-rendermap.sh
 COPY rwgmixer.xml /rwgmixer.xml.default
 COPY serverconfig.xml /serverconfig.xml.default
+COPY replace.sh /replace.sh
 
 # Reconfigure Apache to run under steam username, to retain ability to modify steam's files
 RUN sed -i 's|User apache|User steam|g' /etc/httpd/conf/httpd.conf && \
