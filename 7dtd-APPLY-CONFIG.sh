@@ -13,7 +13,7 @@
 /replace.sh $INSTALL_DIR/serverconfig.xml "A 7 Days to Die server" "An experimental 7DTD Server. Don't Join!" ServerDescription
 /replace.sh $INSTALL_DIR/serverconfig.xml "Navezgane" "RWG" GameWorld
 /replace.sh $INSTALL_DIR/serverconfig.xml "asdf" "On the 7th day" 'name="WorldGenSeed"'
-/replace.sh $INSTALL_DIR/serverconfig.xml "4096" "8192" 'name="WorldGenSize"'
+#/replace.sh $INSTALL_DIR/serverconfig.xml "4096" "8192" 'name="WorldGenSize"'
 /replace.sh $INSTALL_DIR/serverconfig.xml "2" "3" GameDifficulty
 /replace.sh $INSTALL_DIR/serverconfig.xml "3" "2" ZombieMoveNight
 /replace.sh $INSTALL_DIR/serverconfig.xml "false" "true" BuildCreate
