@@ -49,7 +49,6 @@ echo "command       = $2";\necho "startsecs     = 3";\necho "priority      = 1";
 RUN yum -y install glibc.i686 libstdc++.i686 telnet expect unzip vim-enhanced && useradd steam && cd /home/steam && \
     wget http://media.steampowered.com/installer/steamcmd_linux.tar.gz && \
     tar zxf steamcmd_linux.tar.gz
-COPY install_7dtd.sh /install_7dtd.sh
 
 RUN echo $'#!/bin/bash\n\
 export INSTALL_DIR=/data/7DTD\n\
@@ -61,10 +60,8 @@ RUN echo $'#!/bin/bash\n/7dtd-sendcmd.sh saveworld\n/7dtd-sendcmd.sh shutdown\n'
 RUN echo $'#!/usr/bin/expect\nset timeout 5\nset command [lindex $argv 0]\n\
 spawn telnet 127.0.0.1 8081\nexpect "Please enter password:"\nsend "sanity\r";\n\
 send "$command\r"\nsend "exit\r";\nsleep 1\nexpect eof\nsend_user "Sent command to 7DTD: [$command]"\n' > /7dtd-sendcmd.sh
-#COPY 7dtd-sendcmd.sh /7dtd-sendcmd.sh
-
-COPY 7dtd-startloop.sh /7dtd-startloop.sh
-COPY 7dtd-autoreveal-map.sh /7dtd-autoreveal-map.sh
+COPY install_7dtd.sh /install_7dtd.sh
+COPY 7dtd-APPLY-CONFIG.sh /7dtd-APPLY-CONFIG.sh
 COPY replace.sh /replace.sh
 
 # Reconfigure Apache to run under steam username, to retain ability to modify steam's files
@@ -85,7 +82,6 @@ RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh crond "/start_crond.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh 7dtd "/start_7dtd.sh" >> /etc/supervisord.conf && \
-    /gen_sup.sh 7dtd-startloop "/7dtd-startloop.sh" >> /etc/supervisord.conf
 
 RUN mkdir /data
 VOLUME ["/data"]
