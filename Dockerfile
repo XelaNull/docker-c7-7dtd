@@ -60,13 +60,11 @@ done\n' > /start_7dtd.sh
 RUN echo $'#!/bin/bash\n/7dtd-sendcmd.sh saveworld\n/7dtd-sendcmd.sh shutdown\n' > /stop_7dtd.sh
 RUN echo $'#!/usr/bin/expect\nset timeout 5\nset command [lindex $argv 0]\n\
 spawn telnet 127.0.0.1 8081\nexpect "Please enter password:"\nsend "sanity\r";\n\
-send "$command\r"\nsend "exit\r";\nsleep 1\nexpect eof\nsend_user "Sent command to 7DTD: $command"\n' > /7dtd-sendcmd.sh
+send "$command\r"\nsend "exit\r";\nsleep 1\nexpect eof\nsend_user "Sent command to 7DTD: [$command]"\n' > /7dtd-sendcmd.sh
 #COPY 7dtd-sendcmd.sh /7dtd-sendcmd.sh
 
 COPY 7dtd-startloop.sh /7dtd-startloop.sh
-COPY 7dtd-rendermap.sh /7dtd-rendermap.sh
-COPY rwgmixer.xml /rwgmixer.xml.default
-COPY serverconfig.xml /serverconfig.xml.default
+COPY 7dtd-autoreveal-map.sh /7dtd-autoreveal-map.sh
 COPY replace.sh /replace.sh
 
 # Reconfigure Apache to run under steam username, to retain ability to modify steam's files
