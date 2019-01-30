@@ -36,7 +36,7 @@ echo "Applying CUSTOM CONFIGS against application default files"
 /7dtd-APPLY-CONFIG.sh
 
 echo "Installing Auto-Reveal Map"
-cd / && git clone https://github.com/XelaNull/7dtd-auto-reveal-map.git
+cd / && git clone https://github.com/XelaNull/7dtd-auto-reveal-map.git && chmod a+x /7dtd-auto-reveal-map/*.sh
 /gen_sup.sh 7dtd-startloop "/7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh" >> /etc/supervisord.conf
 # Since the server is already started, we should go ahead and background this script
 /7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh &
