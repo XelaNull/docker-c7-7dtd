@@ -64,7 +64,9 @@ expect "Please enter password:"\n\
 send "sanity\r"; send "saveworld\r"; send "shutdown\r";\n\
 send "exit\r"; expect eof' > /stop_7dtd.sh
 
-COPY 7dtd.sh /7dtd.sh
+COPY 7dtd-startloop.sh /7dtd-startloop.sh
+COPY 7dtd-sendcmd.sh /7dtd-sendcmd.sh
+COPY 7dtd-rendermap.sh /7dtd-rendermap.sh
 COPY rwgmixer.xml /rwgmixer.xml.default
 COPY serverconfig.xml /serverconfig.xml.default
 COPY skyscraper_01.xml /skyscraper_01.xml.default
@@ -89,7 +91,8 @@ RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh mysqld "/start_mysqld.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh crond "/start_crond.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
-    /gen_sup.sh 7dtd "/start_7dtd.sh" >> /etc/supervisord.conf
+    /gen_sup.sh 7dtd "/start_7dtd.sh" >> /etc/supervisord.conf && \
+    /gen_sup.sh 7dtd-startloop "/7dtd_startloop.sh" >> /etc/supervisord.conf
 
 RUN mkdir /data
 VOLUME ["/data"]
