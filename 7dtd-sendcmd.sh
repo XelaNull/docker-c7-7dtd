@@ -1,7 +1,7 @@
 #!/usr/bin/expect
 set timeout 5
 set command [lindex $argv 0]
-spawn telnet localhost 8081
+spawn telnet 127.0.0.1 8081
 expect "Please enter password:"
 send "sanity\r";
 send "$command\r"
