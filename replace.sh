@@ -15,7 +15,7 @@
 # Syntax: ./replace.sh "full_file_path" "old_string" "new_string" "line_grep_string1" "line_grep_string2"
 
 # Formulate grep command based on whether 1 or 2 grep strings were provided
-if [[ $4 != "" ]] && [[ $5 != "" ]]; then CMD="grep $5 $1 | grep $4";
+if [[ $4 != "" ]] && [[ $5 != "" ]]; then CMD="grep \"$5\" \"$1\" | grep \"$4\"";
 elif [[ $4 != "" ]]; then CMD="grep $4 $1"
 else 
   echo "ERROR in Syntax! Missing Variable.\nSyntax: ./replace.sh full_file_path old_string new_string line_grep_string1 line_grep_string2(optional)\n";
