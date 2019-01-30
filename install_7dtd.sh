@@ -33,7 +33,13 @@ wget https://github.com/dmustanger/7dtd-ServerTools/releases/download/12.7/7dtd-
 # install to:  \Mods\Allocs_WebAndMapRendering\webserver\js
 
 echo "Applying CUSTOM CONFIGS against application default files"
-/7dtd-CONFIG.sh
+/7dtd-APPLY-CONFIG.sh
+
+echo "Installing Auto-Reveal Map"
+cd / && git clone https://github.com/XelaNull/7dtd-auto-reveal-map.git
+/gen_sup.sh 7dtd-startloop "/7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh" >> /etc/supervisord.conf
+# Since the server is already started, we should go ahead and background this script
+/7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh &
 
 chown steam:steam $INSTALL_DIR /home/steam -R
 echo "Stopping 7DTD to kick off new world generation (if name changes)"
