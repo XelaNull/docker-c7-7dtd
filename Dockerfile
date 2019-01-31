@@ -62,9 +62,9 @@ set command [lindex $argv 0]\n\
 spawn telnet 127.0.0.1 8081\n\
 expect "Please enter password:"\n\
 send "sanity\r";\n\
+sleep 1\n\
 send "$command\r"\n\
 send "exit\r";\n\
-sleep 1\n\
 expect eof\n\
 send_user "Sent command to 7DTD: $command\n"' > /7dtd-sendcmd.sh
 COPY install_7dtd.sh /install_7dtd.sh
