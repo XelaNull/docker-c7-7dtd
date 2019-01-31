@@ -2,6 +2,8 @@
 #
 # This file is called by install_7dtd.sh after an installation or upgrade of the 7DTD application software
 #
+# Syntax: /replace.sh <file to modify> <old value> <new value> <search string #1 to find the correct line> <optional line search string #2>
+#
 /replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_01.xml downtown "commercial,downtown" Zoning
 /replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_02.xml downtown "commercial,downtown" Zoning
 /replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_03.xml downtown "commercial,downtown" Zoning
