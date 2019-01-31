@@ -74,6 +74,13 @@ RUN sed -i 's|User apache|User steam|g' /etc/httpd/conf/httpd.conf && \
     chown steam:steam /var/www/html -R && \
     echo $'<Directory "/data/7DTD">\n\tOptions all\n\tAllowOverride all\n</Directory>\n' > /etc/httpd/conf.d/7dtd.conf
 
+COPY install_7dtd.sh /install_7dtd.sh
+COPY 7dtd-APPLY-CONFIG.sh /7dtd-APPLY-CONFIG.sh
+COPY replace.sh /replace.sh
+
+# Ensure all packages are up-to-date, then fully clean out all cache
+RUN chmod a+x /*.sh && yum -y update && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
+
 # Create different supervisor entries
 RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh mysqld "/start_mysqld.sh" >> /etc/supervisord.conf && \
@@ -81,13 +88,6 @@ RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh 7dtd "/start_7dtd.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh 7dtd-startloop "/7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh" >> /etc/supervisord.conf
-
-COPY install_7dtd.sh /install_7dtd.sh
-COPY 7dtd-APPLY-CONFIG.sh /7dtd-APPLY-CONFIG.sh
-COPY replace.sh /replace.sh
-
-# Ensure all packages are up-to-date, then fully clean out all cache
-RUN chmod a+x /*.sh && yum -y update && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
 
 RUN mkdir /data
 VOLUME ["/data"]
