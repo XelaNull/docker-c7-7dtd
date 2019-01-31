@@ -60,15 +60,9 @@ RUN printf '#!/bin/bash\n/7dtd-sendcmd.sh saveworld;\n/7dtd-sendcmd.sh shutdown;
     printf '[[ ! -z $PID ]] && kill -9 $PID' >> /stop_7dtd.sh
 
 RUN echo $'#!/usr/bin/expect\n\
-set timeout 5\n\
-set command [lindex $argv 0]\n\
-spawn telnet 127.0.0.1 8081\n\
-expect "Please enter password:"\n\
-send "sanity\r";\n\
-sleep 1\n\
-send "$command\r"\n\
-send "exit\r";\n\
-expect eof\n\
+set timeout 5\nset command [lindex $argv 0]\n\
+spawn telnet 127.0.0.1 8081\nexpect "Please enter password:"\nsend "sanity\r";\n\
+sleep 1\nsend "$command\r"\nsend "exit\r";\nexpect eof\n\
 send_user "Sent command to 7DTD: $command\n"' > /7dtd-sendcmd.sh
 COPY install_7dtd.sh /install_7dtd.sh
 COPY 7dtd-APPLY-CONFIG.sh /7dtd-APPLY-CONFIG.sh
