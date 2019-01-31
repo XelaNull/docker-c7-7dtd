@@ -2,8 +2,8 @@
 FROM centos:7
 # Set the local timezone
 ENV TIMEZONE="America/New_York" \
-    7DTD_TELNET_PORT="8081" \
-    7DTD_TELNET_PASSWORD="sanity"
+    TELNET_PORT="8081" \
+    TELNET_PASSWORD="sanity"
 
 # Install daemon packages# Install base packages
 RUN yum -y install epel-release && yum -y install supervisor syslog-ng cronie \
@@ -49,24 +49,22 @@ RUN yum -y install glibc.i686 libstdc++.i686 telnet expect unzip vim-enhanced &&
     wget http://media.steampowered.com/installer/steamcmd_linux.tar.gz && \
     tar zxf steamcmd_linux.tar.gz
 
+# 7DTD START/STOP/SENDCMD
 RUN echo $'#!/bin/bash\n\
 export INSTALL_DIR=/data/7DTD\n\
 while true; do\n\
   if [ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]; then sudo -u steam $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated; fi\n\
   echo "PLEASE RUN /init_steamcmd_7dtd.sh" && sleep 10\n\
 done\n' > /start_7dtd.sh
-RUN printf '#!/bin/bash\n/7dtd-sendcmd.sh saveworld;\n/7dtd-sendcmd.sh shutdown;\nsleep 5;\n' > /stop_7dtd.sh && \
+RUN printf '#!/bin/bash\n/7dtd-sendcmd.sh saveworld;\n/7dtd-sendcmd.sh shutdown;\nsleep 15;\n' > /stop_7dtd.sh && \
     printf "PID=\`ps awwux | grep 7DaysToDieServer.x86_64 | grep -v sudo | grep -v grep | awk '{print \$2}'\`;\n" >> /stop_7dtd.sh && \
     printf '[[ ! -z $PID ]] && kill -9 $PID' >> /stop_7dtd.sh
 
-RUN echo $'#!/usr/bin/expect\n\
-set timeout 5\nset command [lindex $argv 0]\n\
-spawn telnet 127.0.0.1 8081\nexpect "Please enter password:"\nsend "sanity\r";\n\
-sleep 1\nsend "$command\r"\nsend "exit\r";\nexpect eof\n\
-send_user "Sent command to 7DTD: $command\n"' > /7dtd-sendcmd.sh
-COPY install_7dtd.sh /install_7dtd.sh
-COPY 7dtd-APPLY-CONFIG.sh /7dtd-APPLY-CONFIG.sh
-COPY replace.sh /replace.sh
+RUN echo $'#!/usr/bin/expect\nset timeout 5\nset command [lindex $argv 0]\n' > /7dtd-sendcmd.sh && \
+    printf "spawn telnet 127.0.0.1 $TELNET_PORT\nexpect \"Please enter password:\"\n" >> /7dtd-sendcmd.sh && \
+    printf "send \"$TELNET_PASSWORD\\\r\"; sleep 1;\n" >> /7dtd-sendcmd.sh && \
+    printf 'send "$command\\r"\nsend "exit\\r";\nexpect eof;\n' >> /7dtd-sendcmd.sh && \
+    printf 'send_user "Sent command to 7DTD: $command\\n"' >> /7dtd-sendcmd.sh
 
 # Install 7DTD Auto-Reveal Map
 RUN git clone https://github.com/XelaNull/7dtd-auto-reveal-map.git && chmod a+x /7dtd-auto-reveal-map/*.sh
@@ -75,10 +73,7 @@ RUN git clone https://github.com/XelaNull/7dtd-auto-reveal-map.git && chmod a+x 
 RUN sed -i 's|User apache|User steam|g' /etc/httpd/conf/httpd.conf && \
     sed -i 's|Group apache|Group steam|g' /etc/httpd/conf/httpd.conf && \
     chown steam:steam /var/www/html -R && \
-    echo $'<Directory "/data/7DTD">\n\
-        Options all\n\
-        AllowOverride all\n\
-    </Directory>' > /etc/httpd/conf.d/7dtd.conf
+    echo $'<Directory "/data/7DTD">\n\tOptions all\n\tAllowOverride all\n</Directory>\n' > /etc/httpd/conf.d/7dtd.conf
 
 # Ensure all packages are up-to-date, then fully clean out all cache
 RUN chmod a+x /*.sh && yum -y update && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
@@ -90,6 +85,10 @@ RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh 7dtd "/start_7dtd.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh 7dtd-startloop "/7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh" >> /etc/supervisord.conf
+
+COPY install_7dtd.sh /install_7dtd.sh
+COPY 7dtd-APPLY-CONFIG.sh /7dtd-APPLY-CONFIG.sh
+COPY replace.sh /replace.sh
 
 RUN mkdir /data
 VOLUME ["/data"]
