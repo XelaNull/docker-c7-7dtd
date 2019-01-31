@@ -17,9 +17,8 @@ set -e
 
 echo "Starting Steam to perform application install"
 sudo -u steam /home/steam/steamcmd.sh +login $STEAMCMD_LOGIN $STEAMCMD_PASSWORD \
-  +force_install_dir $INSTALL_DIR \
-  +app_update $STEAMCMD_APP_ID $beta $betapassword $validate \
-  +quit
+  +force_install_dir $INSTALL_DIR +app_update $STEAMCMD_APP_ID \
+  $beta $betapassword $validate +quit
 
 # Install MODS
 echo "Installing 7DTD Mods"
@@ -32,11 +31,7 @@ wget https://github.com/dmustanger/7dtd-ServerTools/releases/download/12.7/7dtd-
 # https://confluence.catalysm.net/download/attachments/1114446/map.js?version=1&modificationDate=1548000113141&api=v2&download=true
 # install to:  \Mods\Allocs_WebAndMapRendering\webserver\js
 
-echo "Applying CUSTOM CONFIGS against application default files"
-/7dtd-APPLY-CONFIG.sh
-
+echo "Applying CUSTOM CONFIGS against application default files" && /7dtd-APPLY-CONFIG.sh
 chown steam:steam $INSTALL_DIR /home/steam -R
-echo "Stopping 7DTD to kick off new world generation (if name changes)"
-/stop_7dtd.sh
-echo "Completed Installation."
-exec "$@"
+echo "Stopping 7DTD to kick off new world generation (if name changes)" && /stop_7dtd.sh
+echo "\nCompleted Installation."; exec "$@"
