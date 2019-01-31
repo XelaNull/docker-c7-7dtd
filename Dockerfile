@@ -59,7 +59,6 @@ done\n' > /start_7dtd.sh
 RUN printf '#!/bin/bash\n/7dtd-sendcmd.sh saveworld;\n/7dtd-sendcmd.sh shutdown;\nsleep 15;\n' > /stop_7dtd.sh && \
     printf "PID=\`ps awwux | grep 7DaysToDieServer.x86_64 | grep -v sudo | grep -v grep | awk '{print \$2}'\`;\n" >> /stop_7dtd.sh && \
     printf '[[ ! -z $PID ]] && kill -9 $PID' >> /stop_7dtd.sh
-
 RUN echo $'#!/usr/bin/expect\nset timeout 5\nset command [lindex $argv 0]\n' > /7dtd-sendcmd.sh && \
     printf "spawn telnet 127.0.0.1 $TELNET_PORT\nexpect \"Please enter password:\"\n" >> /7dtd-sendcmd.sh && \
     printf "send \"$TELNET_PASSWORD\\\r\"; sleep 1;\n" >> /7dtd-sendcmd.sh && \
@@ -75,9 +74,6 @@ RUN sed -i 's|User apache|User steam|g' /etc/httpd/conf/httpd.conf && \
     chown steam:steam /var/www/html -R && \
     echo $'<Directory "/data/7DTD">\n\tOptions all\n\tAllowOverride all\n</Directory>\n' > /etc/httpd/conf.d/7dtd.conf
 
-# Ensure all packages are up-to-date, then fully clean out all cache
-RUN chmod a+x /*.sh && yum -y update && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
-
 # Create different supervisor entries
 RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh mysqld "/start_mysqld.sh" >> /etc/supervisord.conf && \
@@ -89,6 +85,9 @@ RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
 COPY install_7dtd.sh /install_7dtd.sh
 COPY 7dtd-APPLY-CONFIG.sh /7dtd-APPLY-CONFIG.sh
 COPY replace.sh /replace.sh
+
+# Ensure all packages are up-to-date, then fully clean out all cache
+RUN chmod a+x /*.sh && yum -y update && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
 
 RUN mkdir /data
 VOLUME ["/data"]
