@@ -34,4 +34,4 @@ wget https://github.com/dmustanger/7dtd-ServerTools/releases/download/12.7/7dtd-
 echo "Applying CUSTOM CONFIGS against application default files" && /7dtd-APPLY-CONFIG.sh
 chown steam:steam $INSTALL_DIR /home/steam -R
 echo "Stopping 7DTD to kick off new world generation (if name changes)" && /stop_7dtd.sh
-echo "\nCompleted Installation."; touch /7dtd.initialized; exec "$@"
+echo "Completed Installation."; touch /7dtd.initialized; exec "$@"

@@ -75,7 +75,7 @@ RUN git clone https://github.com/XelaNull/7dtd-auto-reveal-map.git && chmod a+x 
 RUN sed -i 's|User apache|User steam|g' /etc/httpd/conf/httpd.conf && \
     sed -i 's|Group apache|Group steam|g' /etc/httpd/conf/httpd.conf && \
     chown steam:steam /var/www/html -R && \
-    echo $'<Directory "/data/7DTD">\n\tOptions all\n\tAllowOverride all\n</Directory>\n' > /etc/httpd/conf.d/7dtd.conf
+    echo $'Alias "/7dtd" "/data/7DTD/html"\n<Directory "/data/7DTD">\n\tRequire all granted\n\tOptions all\n\tAllowOverride all\n</Directory>\n' > /etc/httpd/conf.d/7dtd.conf
 
 COPY install_7dtd.sh /install_7dtd.sh
 COPY 7dtd-APPLY-CONFIG.sh /7dtd-APPLY-CONFIG.sh
