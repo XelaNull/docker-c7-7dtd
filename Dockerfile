@@ -53,10 +53,14 @@ RUN yum -y install glibc.i686 libstdc++.i686 telnet expect unzip vim-enhanced &&
 RUN echo $'#!/bin/bash\n\
 export INSTALL_DIR=/data/7DTD\n\
 while true; do\n\
+  if [ -f /7dtd.initialized ]; then break;\n\
+  sleep 6;\n\
+done\n\
+while true; do\n\
   if [ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]; then sudo -u steam $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated; fi\n\
   echo "PLEASE RUN /init_steamcmd_7dtd.sh" && sleep 10\n\
 done\n' > /start_7dtd.sh
-RUN printf '#!/bin/bash\n/7dtd-sendcmd.sh saveworld;\n/7dtd-sendcmd.sh shutdown;\nsleep 15;\n' > /stop_7dtd.sh && \
+RUN printf '#!/bin/bash\n/7dtd-sendcmd.sh "saveworld\nshutdown";\nsleep 15;\n' > /stop_7dtd.sh && \
     printf "PID=\`ps awwux | grep 7DaysToDieServer.x86_64 | grep -v sudo | grep -v grep | awk '{print \$2}'\`;\n" >> /stop_7dtd.sh && \
     printf '[[ ! -z $PID ]] && kill -9 $PID' >> /stop_7dtd.sh
 RUN echo $'#!/usr/bin/expect\nset timeout 5\nset command [lindex $argv 0]\n' > /7dtd-sendcmd.sh && \
