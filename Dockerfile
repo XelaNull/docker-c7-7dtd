@@ -58,7 +58,7 @@ while true; do\n\
 done\n\
 while true; do\n\
   if [ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]; then sudo -u steam $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated; fi\n\
-  echo "PLEASE RUN /init_steamcmd_7dtd.sh" && sleep 10\n\
+  sleep 10\n\
 done\n' > /start_7dtd.sh
 RUN printf '#!/bin/bash\n/7dtd-sendcmd.sh "saveworld\nshutdown";\nsleep 15;\n' > /stop_7dtd.sh && \
     printf "PID=\`ps awwux | grep 7DaysToDieServer.x86_64 | grep -v sudo | grep -v grep | awk '{print \$2}'\`;\n" >> /stop_7dtd.sh && \
