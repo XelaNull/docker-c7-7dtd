@@ -54,9 +54,9 @@ RUN echo $'#!/bin/bash\n\
 export INSTALL_DIR=/data/7DTD\n\
 while true; do\n\tif [ -f /7dtd.initialized ]; then break; fi\n\tsleep 6;\ndone\n\
 while true; do\n\
-  if [ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]; then 
-    rm -rf /startloop.touch && /7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh &
-    sudo -u steam $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated; 
+  if [ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]; then \n\
+    rm -rf /startloop.touch && /7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh & \n\
+    sudo -u steam $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated; \n\
   fi\n\
   sleep 10\n\
 done\n' > /start_7dtd.sh
