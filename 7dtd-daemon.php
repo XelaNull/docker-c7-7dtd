@@ -54,7 +54,7 @@ if(is_file($INSTALL_DIR.'/7dtd-auto-reveal-map/7dtd-autoreveal-map.sh')) switch(
       if($autoreveal_character=='first')
         {
           // Start the initial Auto-Reveal script, so it can poll and wait for the first character to connect
-          exec("$INSTALL_DIR/7dtd-auto-reveal-map/7dtd/run-after-initial-start.sh &");
+          exec("$INSTALL_DIR/7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh $INSTALL_DIR &");
         }
       else // A character name was set, so we should directly run the script with that!
         {
@@ -67,8 +67,8 @@ if(is_file($INSTALL_DIR.'/7dtd-auto-reveal-map/7dtd-autoreveal-map.sh')) switch(
           $STARTING_COORD=$ENDING_COORD*-1;
           
           // Gather the Telnet Port and password
-          $TELNETPORT=exec("grep 'name=\"TelnetPort\"' $INSTALL_DIR/serverconfig.xml | awk '{print $3} | cud -d'\"' -f2");
-          $TELNETPASSWORD=exec("grep 'name=\"TelnetPassword\"' $INSTALL_DIR/serverconfig.xml | awk '{print $3} | cud -d'\"' -f2");
+          $TELNETPORT=exec("grep 'name=\"TelnetPort\"' $INSTALL_DIR/serverconfig.xml | awk '{print $3} | cut -d'\"' -f2");
+          $TELNETPASSWORD=exec("grep 'name=\"TelnetPassword\"' $INSTALL_DIR/serverconfig.xml | awk '{print $3} | cut -d'\"' -f2");
           
           // Start the auto-reveal script
           exec("$INSTALL_DIR/7dtd-auto-reveal-map/7dtd-autoreveal-map.sh $TELNETPORT \"$TELNETPASSWORD\" \"$autoreveal_character\" $STARTING_COORD $ENDING_COORD");
@@ -82,7 +82,8 @@ if(is_file($INSTALL_DIR.'/7dtd-auto-reveal-map/7dtd-autoreveal-map.sh')) switch(
       // If we find it running, we should stop it, too
       if($INITIAL_AUTOREVEAL_PID!='') exec("kill -9 $INITIAL_AUTOREVEAL_PID");
       // There is no graceful way to stop this other than kill -9
-      exec("kill -9 $AUTOREVEAL_PID");
+      $AUTOREVEAL_PID=exec("ps awwux | grep -v grep | grep expect | grep 7dtd-autoreveal-map.sh | awk '{print \$2}'");
+      if($AUTOREVEAL_PID!='') exec("kill -9 $AUTOREVEAL_PID");
     break;
     
     default:
@@ -90,19 +91,19 @@ if(is_file($INSTALL_DIR.'/7dtd-auto-reveal-map/7dtd-autoreveal-map.sh')) switch(
     break;    
   }
 
-#if [[ `cat $INSTALL_DIR.'/server.expected_status'` == 'start' ]] && [[ `ps awwux | grep -v grep | grep 7DaysToDieServer.x86_64` == '' ]]; then
-#  nohup $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated
-#fi
+export INSTALL_DIR=/data/7DTD; if [[ `cat $INSTALL_DIR'/server.expected_status'` == 'start' ]] && [[ `ps awwux | grep -v grep | grep 7DaysToDieServer.x86_64` == '' ]]; then
+  nohup $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated
+fi
 
 // If 7DTD Server is installed, Switch for server expected_status  
 if(is_file($INSTALL_DIR.'/7DaysToDieServer.x86_64')) switch($server_expected_status)
   { 
-    case "start":
+    //case "start":
     // Make sure that the 7DTD server is currently stopped
-    $SERVER_RUNNING_CHECK=exec('ps awwux | grep -v grep | grep 7DaysToDieServer.x86_64');
+    //$SERVER_RUNNING_CHECK=exec('ps awwux | grep -v grep | grep 7DaysToDieServer.x86_64');
     // Issue the run/start command
-    if($SERVER_RUNNING_CHECK=="") passthru("sudo -b -u steam nohup $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated");
-    break;
+    //if($SERVER_RUNNING_CHECK=="") passthru("sudo -b -u steam nohup $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated");
+    //break;
 
     case "restart":
     case "stop":
@@ -112,7 +113,7 @@ if(is_file($INSTALL_DIR.'/7DaysToDieServer.x86_64')) switch($server_expected_sta
     if($SERVER_RUNNING_CHECK=='') break;
     
     // Make sure that telnet port is up and listening
-    $TELNETPORT=exec("grep 'name=\"TelnetPort\"' $INSTALL_DIR/serverconfig.xml | awk '{print $3} | cud -d'\"' -f2");
+    $TELNETPORT=exec("grep 'name=\"TelnetPort\"' $INSTALL_DIR/serverconfig.xml | awk '{print $3} | cut -d'\"' -f2");
     $TELNET_CHECK=exec("netstat -anptu | grep LISTEN | grep $TELNETPORT");
     
     // send the two commands needed to save the world and shutdown the server

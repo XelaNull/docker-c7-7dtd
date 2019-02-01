@@ -50,32 +50,19 @@ RUN yum -y install glibc.i686 libstdc++.i686 telnet expect unzip vim-enhanced &&
     tar zxf steamcmd_linux.tar.gz
 
 # 7DTD START/STOP/SENDCMD
-RUN echo $'#!/bin/bash\n\
-export INSTALL_DIR=/data/7DTD\n\
-while true; do\n\tif [ -f /7dtd.initialized ]; then break; fi\n\tsleep 6;\ndone\n\
-while true; do\n\
-  if [ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]; then \n\
-  REVEAL_PID=`ps awwux | grep -v grep | grep 7dtd-run-after-initial-start`\n\
-      if [[ -z $REVEAL_PID ]]; then\n\
-        rm -rf /startloop.touch && /7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh &\n\
-      fi \n\
-    if [ `whoami` == "root" ]; then sudo -u steam $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated; \n\
-    else $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated; \n\
-  fi\n\
-  sleep 10\n\
-done\n' > /start_7dtd.sh
-RUN printf '#!/bin/bash\nTELNET_LISTENING=`netstat -anptu | grep 8081 | grep LISTEN | grep -v grep`\n' > /stop_7dtd.sh && \
-    printf 'if [[ ! -z $TELNET_LISTENING ]]; then echo "Attempting to kill via telnet console" && /7dtd-sendcmd.sh "saveworld"; /7dtd-sendcmd.sh "shutdown"; sleep 15; fi\n' >> /stop_7dtd.sh && \
-    printf "PID=\`ps awwux | grep 7DaysToDieServer.x86_64 | grep -v sudo | grep -v grep | awk '{print \$2}'\`;\n" >> /stop_7dtd.sh && \
-    printf "SUDO_PID=\`ps awwux | grep 7DaysToDieServer.x86_64 | grep -v sudo | grep -v grep | awk '{print \$2}'\`;\n" >> /stop_7dtd.sh && \
-    printf 'if [[ ! -z $PID ]]; then echo "Killing via PID: $PID" && kill -9 $PID && kill -9 $SUDO_PID\n' >> /stop_7dtd.sh && \
-    printf 'else echo "Server already stopped";\nfi\n' >> /stop_7dtd.sh && \
-    printf "EXPECT_PID=\`ps awwux | grep expect | grep -v grep | awk '{print \$2}'\`\n" >> /stop_7dtd.sh && \
-    printf 'if [[ ! -z $EXPECT_PID ]]; then kill -9 $EXPECT_PID; fi\n' >> /stop_7dtd.sh && \
-    printf "STARTDAEMON_PID=\`ps awwux | grep start_7dtd | grep -v grep | awk '{print \$2}'\`\n" >> /stop_7dtd.sh && \
-    printf 'if [[ ! -z $STARTDAEMON_PID ]]; then kill -9 $STARTDAEMON_PID; fi\n' >> /stop_7dtd.sh && \
-    printf "AUTOREVEAL_PID=\`ps awwux | grep 7dtd-run-after-initial-start | grep -v grep | awk '{print \$2}'\`\n" >> /stop_7dtd.sh && \
-    printf 'if [[ ! -z $AUTOREVEAL_PID ]]; then kill -9 $AUTOREVEAL_PID; fi' >> /stop_7dtd.sh
+RUN echo $'#!/bin/sh\n
+export INSTALL_DIR=/data/7DTD\n
+if [[ `ps awwux | grep -v grep | grep loop_start_7dtd | wc -l` > 2 ]]; then exit; fi\n
+while true; do if [ -f /7dtd.initialized ]; then break; fi; sleep 6; done\n
+while true; do\n
+  if [[ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]] && [[ `cat $INSTALL_DIR/server.expected_status` == \'start\' ]]; then\n
+        SERVER_PID=`ps awwux | grep -v grep | grep 7DaysToDieServer.x86_64`;\n
+        [[ -z $SERVER_PID ]] && $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated;\n
+  fi\n
+  sleep 2\n
+done' > /loop_start_7dtd.sh
+RUN printf 'echo "start" > /data/7DTD/server.expected_status\n' > /start_7dtd.sh
+RUN printf 'echo "stop" > /data/7DTD/server.expected_status\n' > /stop_7dtd.sh && \
 RUN echo $'#!/usr/bin/expect\nset timeout 5\nset command [lindex $argv 0]\n' > /7dtd-sendcmd.sh && \
     printf "spawn telnet 127.0.0.1 $TELNET_PORT\nexpect \"Please enter password:\"\n" >> /7dtd-sendcmd.sh && \
     printf "send \"$TELNET_PASSWORD\\\r\"; sleep 1;\n" >> /7dtd-sendcmd.sh && \
@@ -95,6 +82,7 @@ COPY install_7dtd.sh /install_7dtd.sh
 COPY 7dtd-APPLY-CONFIG.sh /7dtd-APPLY-CONFIG.sh
 COPY replace.sh /replace.sh
 COPY index.php /index.php
+COPY 7dtd-daemon.php /7dtd-daemon.php
 
 # Ensure all packages are up-to-date, then fully clean out all cache
 RUN chmod a+x /*.sh && yum -y update && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
@@ -104,8 +92,7 @@ RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh mysqld "/start_mysqld.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh crond "/start_crond.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
-    /gen_sup.sh 7dtd "/start_7dtd.sh" >> /etc/supervisord.conf && \
-    /gen_sup.sh 7dtd-startloop "/data/7DTD/7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh" >> /etc/supervisord.conf
+    /gen_sup.sh 7dtd-daemon "/7dtd-daemon.php" >> /etc/supervisord.conf
 
 RUN mkdir /data
 VOLUME ["/data"]
