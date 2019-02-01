@@ -30,8 +30,10 @@
 /replace.sh $INSTALL_DIR/serverconfig.xml "true" "false" EACEnabled
 /replace.sh $INSTALL_DIR/serverconfig.xml 'value=""' 'value="This is an experimental server. Do not play here."' ServerLoginConfirmationText
 
-/replace.sh $INSTALL_DIR/Data/Config/rwgmixer.xml "0.25,0.5" "0.25,0.75" "0.25,0.5" # pine_forest
-/replace.sh $INSTALL_DIR/Data/Config/rwgmixer.xml "0,0.25" ".15,0.3" "0,0.25" # snow
-/replace.sh $INSTALL_DIR/Data/Config/rwgmixer.xml "0.5,0.65" "0.1,0.2" "0.5,0.65" # wasteland
-/replace.sh $INSTALL_DIR/Data/Config/rwgmixer.xml "0.65,0.75" "0,0.1" "0.65,0.75" # burnt_forest
-/replace.sh $INSTALL_DIR/Data/Config/rwgmixer.xml "0.75,1" "0.25,.5" '"0.75,1"' # desert
+#/replace.sh $INSTALL_DIR/Data/Config/rwgmixer.xml "0.25,0.5" "0.4,0.75" "0.25,0.5" # pine_forest
+#/replace.sh $INSTALL_DIR/Data/Config/rwgmixer.xml "0,0.25" ".15,0.3" "0,0.25" # snow
+#/replace.sh $INSTALL_DIR/Data/Config/rwgmixer.xml "0.5,0.65" "0.1,0.2" "0.5,0.65" # wasteland
+#/replace.sh $INSTALL_DIR/Data/Config/rwgmixer.xml "0.65,0.75" "0,0.1" "0.65,0.75" # burnt_forest
+#/replace.sh $INSTALL_DIR/Data/Config/rwgmixer.xml "0.75,1" "0.3,.5" '"0.75,1"' # desert
+#/replace.sh $INSTALL_DIR/Data/Config/rwgmixer.xml 'generator="vanillaSmall"' 'generator="vanillaMedium"' 'world_size="4096"'
+#/replace.sh $INSTALL_DIR/Data/Config/rwgmixer.xml 'generator="vanillaSmall"' 'generator="vanillaMedium"' 'world_size="8192"'
