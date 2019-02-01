@@ -61,17 +61,17 @@ while true; do\n\
   sleep 10\n\
 done\n' > /start_7dtd.sh
 RUN printf '#!/bin/bash\nTELNET_LISTENING=`netstat -anptu | grep 8081 | grep LISTEN | grep -v grep`\n' > /stop_7dtd.sh && \
-    
+  
     printf 'if [[ ! -z $TELNET_LISTENING ]]; then echo "Attempting to kill via telnet console" && /7dtd-sendcmd.sh "saveworld"; /7dtd-sendcmd.sh "shutdown"; sleep 30; fi\n' >> /stop_7dtd.sh && \
     printf "PID=\`ps awwux | grep 7DaysToDieServer.x86_64 | grep -v sudo | grep -v grep | awk '{print \$2}'\`;\n" >> /stop_7dtd.sh && \
     printf "SUDO_PID=\`ps awwux | grep 7DaysToDieServer.x86_64 | grep -v sudo | grep -v grep | awk '{print \$2}'\`;\n" >> /stop_7dtd.sh && \
     printf 'if [[ ! -z $PID ]]; then echo "Killing via PID: $PID" && kill -9 $PID && kill -9 $SUDO_PID\n' >> /stop_7dtd.sh && \
     printf 'else echo "Server already stopped";\nfi\n' >> /stop_7dtd.sh && \
     printf "EXPECT_PID=\`ps awwux | grep expect | grep -v grep | awk '{print \$2}'\`\n" >> /stop_7dtd.sh && \
-    printf '[[ ! -z $EXPECT_PID ]] && kill -9 $EXPECT_PID\n' >> /stop_7dtd.sh
+    printf '[[ ! -z $EXPECT_PID ]] && kill -9 $EXPECT_PID\n' >> /stop_7dtd.sh && \
     printf "STARTDAEMON_PID=\`ps awwux | grep start_7dtd | grep -v grep | awk '{print \$2}'\`\n" >> /stop_7dtd.sh && \
-    printf '[[ ! -z $STARTDAEMON_PID ]] && kill -9 $STARTDAEMON_PID\n' >> /stop_7dtd.sh
-    printf "AUTOREVEAL_PID=\`ps awwux | grep 7dtd-run-after-initial-start | grep -v grep | awk '{print \$2}'\`" >> /stop_7dtd.sh
+    printf '[[ ! -z $STARTDAEMON_PID ]] && kill -9 $STARTDAEMON_PID\n' >> /stop_7dtd.sh && \
+    printf "AUTOREVEAL_PID=\`ps awwux | grep 7dtd-run-after-initial-start | grep -v grep | awk '{print \$2}'\`" >> /stop_7dtd.sh && \
     printf '[[ ! -z $AUTOREVEAL_PID ]] && kill -9 $AUTOREVEAL_PID' >> /stop_7dtd.sh
 RUN echo $'#!/usr/bin/expect\nset timeout 5\nset command [lindex $argv 0]\n' > /7dtd-sendcmd.sh && \
     printf "spawn telnet 127.0.0.1 $TELNET_PORT\nexpect \"Please enter password:\"\n" >> /7dtd-sendcmd.sh && \
