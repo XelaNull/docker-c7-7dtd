@@ -9,7 +9,9 @@ fi
 set -e
 
 # Set up the installation directory
-[[ ! -d $INSTALL_DIR ]] && mkdir $INSTALL_DIR; chown steam:steam $INSTALL_DIR /home/steam -R
+[[ ! -d $INSTALL_DIR ]] && mkdir -p $INSTALL_DIR/html; cp /index.php $INSTALL_DIR/html/
+chown steam:steam $INSTALL_DIR /home/steam -R
+
 # Set up extra variables we will use, if they are present
 [ -z "$STEAMCMD_NO_VALIDATE" ]   && validate="validate"
 [ -n "$STEAMCMD_BETA" ]          && beta="-beta $STEAMCMD_BETA"
@@ -22,12 +24,12 @@ sudo -u steam /home/steam/steamcmd.sh +login $STEAMCMD_LOGIN $STEAMCMD_PASSWORD 
 
 # Install MODS
 echo "Installing 7DTD Mods"
-cd $INSTALL_DIR && wget http://botman.nz/Botman_Mods_A17.zip && unzip Botman_Mods_A17.zip
-cd $INSTALL_DIR/Mods && wget -O CSMM_Patrons.zip https://confluence.catalysm.net/download/attachments/1114182/CSMM_Patrons_8.9.2.zip?api=v2
-unzip CSMM_Patrons.zip
-git clone https://github.com/djkrose/7DTD-ScriptingMod
-wget https://github.com/dmustanger/7dtd-ServerTools/releases/download/12.7/7dtd-ServerTools-12.7.zip
+cd $INSTALL_DIR; rm -rf Botman_Mods_A17.zip; wget http://botman.nz/Botman_Mods_A17.zip && unzip -o Botman_Mods_A17.zip
+cd $INSTALL_DIR/Mods; rm -rf CSMM_Patrons.zip; wget -O CSMM_Patrons.zip https://confluence.catalysm.net/download/attachments/1114182/CSMM_Patrons_8.9.2.zip?api=v2
+unzip -o CSMM_Patrons.zip
+rm -rf 7DTD-ScriptingMod && git clone https://github.com/djkrose/7DTD-ScriptingMod
 
+rm -rf 7dtd-ServerTools-12.7.zip; wget https://github.com/dmustanger/7dtd-ServerTools/releases/download/12.7/7dtd-ServerTools-12.7.zip
 # https://confluence.catalysm.net/download/attachments/1114446/map.js?version=1&modificationDate=1548000113141&api=v2&download=true
 # install to:  \Mods\Allocs_WebAndMapRendering\webserver\js
 
