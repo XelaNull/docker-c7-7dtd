@@ -9,7 +9,7 @@
 /replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_03.xml downtown "commercial,downtown" Zoning
 /replace.sh $INSTALL_DIR/Data/Prefabs/skyscraper_04.xml downtown "commercial,downtown" Zoning
 
-/replace.sh $INSTALL_DIR/serverconfig.xml "My Game Host" "Darkness" ServerName
+/replace.sh $INSTALL_DIR/serverconfig.xml "My Game Host" "Bad Baby" ServerName
 /replace.sh $INSTALL_DIR/serverconfig.xml "8" "24" ServerMaxPlayerCount
 /replace.sh $INSTALL_DIR/serverconfig.xml "0" "2" 'name="ServerAdminSlots"'
 /replace.sh $INSTALL_DIR/serverconfig.xml "A 7 Days to Die server" "An experimental 7DTD Server. Don't Join!" ServerDescription
