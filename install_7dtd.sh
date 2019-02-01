@@ -33,6 +33,9 @@ rm -rf 7dtd-ServerTools-12.7.zip; wget https://github.com/dmustanger/7dtd-Server
 # https://confluence.catalysm.net/download/attachments/1114446/map.js?version=1&modificationDate=1548000113141&api=v2&download=true
 # install to:  \Mods\Allocs_WebAndMapRendering\webserver\js
 
+echo "Copying in cloned copy of auto-reveal map"
+cp -rp /7dtd-auto-reveal-map $INSTALL_DIR
+
 echo "Applying CUSTOM CONFIGS against application default files" && /7dtd-APPLY-CONFIG.sh
 chown steam:steam $INSTALL_DIR /home/steam -R
 echo "Stopping 7DTD to kick off new world generation (if name changes)" && /stop_7dtd.sh

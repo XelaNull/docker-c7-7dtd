@@ -59,12 +59,13 @@ while true; do\n\
       if [[ -z $REVEAL_PID ]]; then\n\
         rm -rf /startloop.touch && /7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh &\n\
       fi \n\
-    sudo -u steam $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated; \n\
+    if [ `whoami` == "root" ]; then sudo -u steam $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated; \n\
+    else $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated; \n\
   fi\n\
   sleep 10\n\
 done\n' > /start_7dtd.sh
 RUN printf '#!/bin/bash\nTELNET_LISTENING=`netstat -anptu | grep 8081 | grep LISTEN | grep -v grep`\n' > /stop_7dtd.sh && \
-    printf 'if [[ ! -z $TELNET_LISTENING ]]; then echo "Attempting to kill via telnet console" && /7dtd-sendcmd.sh "saveworld"; /7dtd-sendcmd.sh "shutdown"; sleep 45; fi\n' >> /stop_7dtd.sh && \
+    printf 'if [[ ! -z $TELNET_LISTENING ]]; then echo "Attempting to kill via telnet console" && /7dtd-sendcmd.sh "saveworld"; /7dtd-sendcmd.sh "shutdown"; sleep 15; fi\n' >> /stop_7dtd.sh && \
     printf "PID=\`ps awwux | grep 7DaysToDieServer.x86_64 | grep -v sudo | grep -v grep | awk '{print \$2}'\`;\n" >> /stop_7dtd.sh && \
     printf "SUDO_PID=\`ps awwux | grep 7DaysToDieServer.x86_64 | grep -v sudo | grep -v grep | awk '{print \$2}'\`;\n" >> /stop_7dtd.sh && \
     printf 'if [[ ! -z $PID ]]; then echo "Killing via PID: $PID" && kill -9 $PID && kill -9 $SUDO_PID\n' >> /stop_7dtd.sh && \
@@ -104,7 +105,7 @@ RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh crond "/start_crond.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh 7dtd "/start_7dtd.sh" >> /etc/supervisord.conf && \
-    /gen_sup.sh 7dtd-startloop "/7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh" >> /etc/supervisord.conf
+    /gen_sup.sh 7dtd-startloop "/data/7DTD/7dtd-auto-reveal-map/7dtd-run-after-initial-start.sh" >> /etc/supervisord.conf
 
 RUN mkdir /data
 VOLUME ["/data"]
