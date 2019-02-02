@@ -63,7 +63,7 @@ while true; do\
 done' > /loop_start_7dtd.sh
 RUN su - steam -c "(/usr/bin/crontab -l 2>/dev/null; echo '* * * * * /loop_start_7dtd.sh') | /usr/bin/crontab -"
 RUN printf 'echo "start" > /data/7DTD/server.expected_status\n' > /start_7dtd.sh
-RUN printf 'echo "stop" > /data/7DTD/server.expected_status\n' > /stop_7dtd.sh && \
+RUN printf 'echo "stop" > /data/7DTD/server.expected_status\n' > /stop_7dtd.sh
 RUN echo $'#!/usr/bin/expect\nset timeout 5\nset command [lindex $argv 0]\n' > /7dtd-sendcmd.sh && \
     printf "spawn telnet 127.0.0.1 $TELNET_PORT\nexpect \"Please enter password:\"\n" >> /7dtd-sendcmd.sh && \
     printf "send \"$TELNET_PASSWORD\\\r\"; sleep 1;\n" >> /7dtd-sendcmd.sh && \
