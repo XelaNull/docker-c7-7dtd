@@ -25,9 +25,10 @@ while (1) {
 // ####### MAIN BLOCK OF CODE ######## //  
 
 # Set default on the three touch files, if they don't already exist 
-if(!is_file($INSTALL_DIR.'/server.expected_status')) file_put_contents($INSTALL_DIR.'/server.expected_status','start');
-if(!is_file($INSTALL_DIR.'/auto-reveal.status')) file_put_contents($INSTALL_DIR.'/auto-reveal.status','start');
-if(!is_file($INSTALL_DIR.'/auto-reveal.character')) file_put_contents($INSTALL_DIR.'/auto-reveal.character','first');
+if(!is_file($INSTALL_DIR.'/server.expected_status')) { file_put_contents($INSTALL_DIR.'/server.expected_status','start'); chown($INSTALL_DIR.'/server.expected_status','steam'); }
+if(!is_file($INSTALL_DIR.'/auto-reveal.status')) { file_put_contents($INSTALL_DIR.'/auto-reveal.status','start'); chown($INSTALL_DIR.'/auto-reveal.status','steam'); }
+if(!is_file($INSTALL_DIR.'/auto-reveal.character')) { file_put_contents($INSTALL_DIR.'/auto-reveal.character','first'); chown($INSTALL_DIR.'/auto-reveal.character','steam'); }
+
 
 // Read in the current values of the three touch files
 $server_expected_status = trim(file_get_contents($INSTALL_DIR.'/server.expected_status'));
