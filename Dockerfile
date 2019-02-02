@@ -50,17 +50,18 @@ RUN yum -y install glibc.i686 libstdc++.i686 telnet expect unzip vim-enhanced &&
     tar zxf steamcmd_linux.tar.gz
 
 # 7DTD START/STOP/SENDCMD
-RUN echo $'#!/bin/sh\n
-export INSTALL_DIR=/data/7DTD\n
-if [[ `ps awwux | grep -v grep | grep loop_start_7dtd | wc -l` > 2 ]]; then exit; fi\n
-while true; do if [ -f /7dtd.initialized ]; then break; fi; sleep 6; done\n
-while true; do\n
-  if [[ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]] && [[ `cat $INSTALL_DIR/server.expected_status` == \'start\' ]]; then\n
-        SERVER_PID=`ps awwux | grep -v grep | grep 7DaysToDieServer.x86_64`;\n
-        [[ -z $SERVER_PID ]] && $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated;\n
-  fi\n
-  sleep 2\n
+RUN echo $'#!/bin/sh
+export INSTALL_DIR=/data/7DTD
+if [[ `ps awwux | grep -v grep | grep loop_start_7dtd | wc -l` > 2 ]]; then exit; fi
+while true; do if [ -f /7dtd.initialized ]; then break; fi; sleep 6; done
+while true; do
+  if [[ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]] && [[ `cat $INSTALL_DIR/server.expected_status` == \'start\' ]]; then
+        SERVER_PID=`ps awwux | grep -v grep | grep 7DaysToDieServer.x86_64`;
+        [[ -z $SERVER_PID ]] && $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated;
+  fi
+  sleep 2
 done' > /loop_start_7dtd.sh
+RUN su - steam -c "(/usr/bin/crontab -l 2>/dev/null; echo '* * * * * /loop_start_7dtd.sh') | /usr/bin/crontab -"
 RUN printf 'echo "start" > /data/7DTD/server.expected_status\n' > /start_7dtd.sh
 RUN printf 'echo "stop" > /data/7DTD/server.expected_status\n' > /stop_7dtd.sh && \
 RUN echo $'#!/usr/bin/expect\nset timeout 5\nset command [lindex $argv 0]\n' > /7dtd-sendcmd.sh && \
