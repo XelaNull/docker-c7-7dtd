@@ -37,7 +37,7 @@ $autoreveal_character = trim(file_get_contents($INSTALL_DIR.'/auto-reveal.charac
 
 // If auto-reveal is installed, Switch for auto-reveal status
 if(is_file($INSTALL_DIR.'/7dtd-auto-reveal-map/7dtd-autoreveal-map.sh')) switch($autoreveal_status) 
-  {
+  { /*
     // If value is start, we should run through procedure for starting it
     case "start":
       // Make sure that it isnt already running
@@ -74,7 +74,7 @@ if(is_file($INSTALL_DIR.'/7dtd-auto-reveal-map/7dtd-autoreveal-map.sh')) switch(
           // Start the auto-reveal script
           exec("$INSTALL_DIR/7dtd-auto-reveal-map/7dtd-autoreveal-map.sh $TELNETPORT \"$TELNETPASSWORD\" \"$autoreveal_character\" $STARTING_COORD $ENDING_COORD");
         }
-    break;
+    break;*/
     
     // If value is stop, we should run through procedure for stopping it
     case "stop":
@@ -95,13 +95,6 @@ if(is_file($INSTALL_DIR.'/7dtd-auto-reveal-map/7dtd-autoreveal-map.sh')) switch(
 // If 7DTD Server is installed, Switch for server expected_status  
 if(is_file($INSTALL_DIR.'/7DaysToDieServer.x86_64')) switch($server_expected_status)
   { 
-    //case "start":
-    // Make sure that the 7DTD server is currently stopped
-    //$SERVER_RUNNING_CHECK=exec('ps awwux | grep -v grep | grep 7DaysToDieServer.x86_64');
-    // Issue the run/start command
-    //if($SERVER_RUNNING_CHECK=="") passthru("sudo -b -u steam nohup $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated");
-    //break;
-
     case "restart":
     case "stop":
     // Make sure that the 7DTD server is currently started
