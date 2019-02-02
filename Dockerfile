@@ -82,7 +82,7 @@ COPY 7dtd-daemon.php /7dtd-daemon.php
 COPY COMPOPACK_35.zip /COMPOPACK_35.zip
 
 # Ensure all packages are up-to-date, then fully clean out all cache
-RUN chmod a+x /*.sh && yum -y update && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
+RUN chmod a+x /*.sh /*.php && yum -y update && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
 
 # Create different supervisor entries
 RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
