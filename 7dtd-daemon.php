@@ -25,8 +25,8 @@ while (1) {
 // ####### MAIN BLOCK OF CODE ######## //  
 
 # Set default on the three touch files, if they don't already exist 
-if(!is_file($INSTALL_DIR.'/server.expected_status')) file_put_contents($INSTALL_DIR.'/server.expected_status','stop');
-if(!is_file($INSTALL_DIR.'/auto-reveal.status')) file_put_contents($INSTALL_DIR.'/auto-reveal.status','stop');
+if(!is_file($INSTALL_DIR.'/server.expected_status')) file_put_contents($INSTALL_DIR.'/server.expected_status','start');
+if(!is_file($INSTALL_DIR.'/auto-reveal.status')) file_put_contents($INSTALL_DIR.'/auto-reveal.status','start');
 if(!is_file($INSTALL_DIR.'/auto-reveal.character')) file_put_contents($INSTALL_DIR.'/auto-reveal.character','first');
 
 // Read in the current values of the three touch files
