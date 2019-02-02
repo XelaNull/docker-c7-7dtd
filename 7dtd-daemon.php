@@ -91,10 +91,6 @@ if(is_file($INSTALL_DIR.'/7dtd-auto-reveal-map/7dtd-autoreveal-map.sh')) switch(
     break;    
   }
 
-export INSTALL_DIR=/data/7DTD; if [[ `cat $INSTALL_DIR'/server.expected_status'` == 'start' ]] && [[ `ps awwux | grep -v grep | grep 7DaysToDieServer.x86_64` == '' ]]; then
-  nohup $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated
-fi
-
 // If 7DTD Server is installed, Switch for server expected_status  
 if(is_file($INSTALL_DIR.'/7DaysToDieServer.x86_64')) switch($server_expected_status)
   { 
