@@ -7,7 +7,7 @@ ENV TIMEZONE="America/New_York" \
 
 # Install daemon packages# Install base packages
 RUN yum -y install epel-release && yum -y install supervisor syslog-ng cronie \
-    python wget net-tools rsync sudo git logrotate which && \
+    python wget net-tools rsync sudo git logrotate which mlocate && \
 # Configure Syslog-NG for use in a Docker container
     sed -i 's|system();|unix-stream("/dev/log");|g' /etc/syslog-ng/syslog-ng.conf
 
@@ -28,6 +28,9 @@ done\n' > /start_mysqld.sh
 RUN yum -y localinstall https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && \
     yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-mysqli php72w-curl && \
     rm -rf /etc/httpd/conf.d/welcome.conf
+    
+# rar, unrar
+RUN wget https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/
 
 # Create beginning of supervisord.conf file
 RUN printf '[supervisord]\nnodaemon=true\nuser=root\nlogfile=/var/log/supervisord\n' > /etc/supervisord.conf && \
