@@ -14,6 +14,7 @@ textarea
 
 <body>
 <?php
+if($_GET['editFile']=='') $_GET['editFile']='serverconfig.xml';
 if($_GET['editFile']=='serverconfig.xml') $fullPath='/data/7DTD/serverconfig.xml';
 if($_GET['editFile']=='rwgmixer.xml') $fullPath='/data/7DTD/Data/Config/rwgmixer.xml';
 ?>
@@ -32,7 +33,10 @@ if($SERVER_PID!='' && $PORT_DETAIL!='') $status="UP"; else $status="DOWN";
 if($_GET['control']!='')
 {
         if($_GET['control']=='STOP') { exec("/stop_7dtd.sh &"); $status="STOPPING"; }
+        if($_GET['control']=='FORCE_STOP') { exec("echo 'force_stop' > /data/7DTD/server.expected_status"); $status="FORCEFUL STOPPING"; }
         if($_GET['control']=='START') { exec("/start_7dtd.sh &"); $status="STARTING"; }
+        if($_GET['control']=='START_AUTOEXPLORE') { exec("rm -rf /startloop.touch; echo start > /data/7DTD/auto-reveal.status"); $status="STARTING"; }
+        if($_GET['control']=='STOP_AUTOEXPLORE') { exec("echo stop > /data/7DTD/auto-reveal.status"); $status="STARTING"; }
         echo $status;
 }
 else
@@ -41,7 +45,8 @@ else
         switch($status)
         {
         case "UP":
-        echo "<a href=?control=STOP>STOP SERVER</a>";
+        echo "<a href=?control=STOP>STOP SERVER</a><br>";
+        echo "<a href=?control=FORCE_STOP>FORCE STOP SERVER</a>";
         break;
 
         case "DOWN":
@@ -50,7 +55,11 @@ else
         }
 }
 ?>
-<br><br><Br>
+<br>
+echo "<a href=?control=START_AUTOEXPLORE>START AUTOEXPLORE</a>";
+echo "<a href=?control=STOP_AUTOEXPLORE>STOP AUTOEXPLORE</a>";
+
+<br><Br>
 <a href=index.php>refresh</a>
 </center>
 </div>
