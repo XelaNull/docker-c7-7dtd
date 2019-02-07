@@ -44,16 +44,16 @@ mv map.js $INSTALL_DIR/Mods/Allocs_WebAndMapRendering/webserver/js
 cd $INSTALL_DIR && git clone https://github.com/mjrice/7DaysModlets.git && cp -rp 7DaysModlets/JSS $INSTALL_DIR/Mods/ && cp -rp 7DaysModlets/TheWildLand $INSTALL_DIR/Mods/
 
 # Red Eagle's Modlet Collection
-mkdir $INSTALL_DIR/Red_Modlets && cp "/Red_Eagle_LXIXs_A17_Modlet_Collection.zip" $INSTALL_DIR/Red_Modlets && cd $INSTALL_DIR/Red_Modlets && unzip Red*zip && \
-cp -rp $INSTALL_DIR/Red_Modlets/RELXIX_UI_CompassCenterHighlight $INSTALL_DIR/Mods/ && \
-cp -rp $INSTALL_DIR/Red_Modlets/RELXIX_UI_CompassStats $INSTALL_DIR/Mods/ && \
-cp -rp $INSTALL_DIR/Red_Modlets/RELXIX_UI_MenuStats $INSTALL_DIR/Mods/ && \
-cp -rp $INSTALL_DIR/Red_Modlets/RELXIX_UI_MenuTime $INSTALL_DIR/Mods/ && \
-cp -rp $INSTALL_DIR/Red_Modlets/RELXIX_UI_PlayerStats $INSTALL_DIR/Mods/ && \
-#cp -rp $INSTALL_DIR/Red_Modlets/RELXIX_UI_SkillP2_SkillPointsLevelTopLeft $INSTALL_DIR/Mods/ && \
-cp -rp $INSTALL_DIR/Red_Modlets/RELXIX_UI_ToolbeltSlotNumbers $INSTALL_DIR/Mods/ && \
-cp -rp $INSTALL_DIR/Red_Modlets/RELXIX_UI_Tweaks $INSTALL_DIR/Mods/ && \
-cp -rp $INSTALL_DIR/Red_Modlets/RELXIX_UI_ZDP2_ZombieKillsDeaths $INSTALL_DIR/Mods
+mkdir $INSTALL_DIR/Red_Eagle_Modlets && cp "/Red_Eagle_LXIXs_A17_Modlet_Collection.zip" $INSTALL_DIR/Red_Eagle_Modlets && cd $INSTALL_DIR/Red_Eagle_Modlets && unzip Red*zip && \
+cp -rp $INSTALL_DIR/Red_Eagle_Modlets/RELXIX_UI_CompassCenterHighlight $INSTALL_DIR/Mods/ && \
+cp -rp $INSTALL_DIR/Red_Eagle_Modlets/RELXIX_UI_CompassStats $INSTALL_DIR/Mods/ && \
+cp -rp $INSTALL_DIR/Red_Eagle_Modlets/RELXIX_UI_MenuStats $INSTALL_DIR/Mods/ && \
+cp -rp $INSTALL_DIR/Red_Eagle_Modlets/RELXIX_UI_MenuTime $INSTALL_DIR/Mods/ && \
+cp -rp $INSTALL_DIR/Red_Eagle_Modlets/RELXIX_UI_PlayerStats $INSTALL_DIR/Mods/ && \
+#cp -rp $INSTALL_DIR/Red_Eagle_Modlets/RELXIX_UI_SkillP2_SkillPointsLevelTopLeft $INSTALL_DIR/Mods/ && \
+cp -rp $INSTALL_DIR/Red_Eagle_Modlets/RELXIX_UI_ToolbeltSlotNumbers $INSTALL_DIR/Mods/ && \
+cp -rp $INSTALL_DIR/Red_Eagle_Modlets/RELXIX_UI_Tweaks $INSTALL_DIR/Mods/ && \
+cp -rp $INSTALL_DIR/Red_Eagle_Modlets/RELXIX_UI_ZDP2_ZombieKillsDeaths $INSTALL_DIR/Mods
 
 # Install Vanilla+
 cp /VanillaPlusModletCollection_1_2_Experimental.rar $INSTALL_DIR && cd $INSTALL_DIR && unrar x VanillaPlusModletCollection_1_2_Experimental.rar
