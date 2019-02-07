@@ -90,6 +90,8 @@ COPY replace.sh /replace.sh
 COPY index.php /index.php
 COPY 7dtd-daemon.php /7dtd-daemon.php
 COPY COMPOPACK_35.zip /COMPOPACK_35.zip
+COPY "Red Eagle LXIX's A17 Modlet Collection.zip" "/Red Eagle LXIX's A17 Modlet Collection.zip"
+COPY VanillaPlusModletCollection_1_2_Experimental.rar /VanillaPlusModletCollection_1_2_Experimental.rar
 
 # Ensure all packages are up-to-date, then fully clean out all cache
 RUN chmod a+x /*.sh /*.php && yum -y update && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
