@@ -44,7 +44,7 @@ mv map.js $INSTALL_DIR/Mods/Allocs_WebAndMapRendering/webserver/js
 cd $INSTALL_DIR/Mods && git clone https://github.com/mjrice/7DaysModlets.git
 
 # Red Eagle's Modlet Collection
-mkdir $INSTALL_DIR/Red_Modlets && cp "/Red Eagle LXIX's A17 Modlet Collection.zip" $INSTALL_DIR/Red_Modlets && cd $INSTALL_DIR/Red_Modlets && unzip Red*zip && \
+mkdir $INSTALL_DIR/Red_Modlets && cp "/Red_Eagle_LXIXs_A17_Modlet_Collection.zip" $INSTALL_DIR/Red_Modlets && cd $INSTALL_DIR/Red_Modlets && unzip Red*zip && \
 cp -rp $INSTALL_DIR/Red_Modlets/RELXIX_UI_CompassCenterHighlight $INSTALL_DIR/Mods/ && \
 cp -rp $INSTALL_DIR/Red_Modlets/RELXIX_UI_CompassStats $INSTALL_DIR/Mods/ && \
 cp -rp $INSTALL_DIR/Red_Modlets/RELXIX_UI_MenuStats $INSTALL_DIR/Mods/ && \
