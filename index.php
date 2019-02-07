@@ -55,7 +55,7 @@ else
         }
 }
 
-echo "<a href=?control=START_AUTOEXPLORE>START AUTOEXPLORE</a><br>";
+echo "<br><a href=?control=START_AUTOEXPLORE>START AUTOEXPLORE</a><br>";
 echo "<a href=?control=STOP_AUTOEXPLORE>STOP AUTOEXPLORE</a>";
 ?>
 <br>
