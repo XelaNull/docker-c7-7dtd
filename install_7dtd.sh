@@ -28,7 +28,7 @@ sudo -u steam /home/steam/steamcmd.sh +login $STEAMCMD_LOGIN $STEAMCMD_PASSWORD 
 # Install MODS
 echo "Installing 7DTD Mods"
 cd $INSTALL_DIR; rm -rf Botman_Mods_A17.zip; wget http://botman.nz/Botman_Mods_A17.zip && unzip -o Botman_Mods_A17.zip
-cd $INSTALL_DIR/Mods; rm -rf CSMM_Patrons.zip; wget -O CSMM_Patrons.zip https://confluence.catalysm.net/download/attachments/1114182/CSMM_Patrons_9.0.zip?api=v2
+cd $INSTALL_DIR/Mods; rm -rf CSMM_Patrons.zip; wget -O CSMM_Patrons.zip https://confluence.catalysm.net/download/attachments/1114182/CSMM_Patrons_9.1.1.zip?api=v2
 unzip -o CSMM_Patrons.zip
 cd $INSTALL_DIR; rm -rf 7DTD-ScriptingMod && git clone https://github.com/djkrose/7DTD-ScriptingMod && cp -rp ScriptingMod Mods/
 cp /COMPOPACK_35.zip $INSTALL_DIR && unzip COMPOPACK_35.zip && \
