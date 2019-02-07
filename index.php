@@ -54,11 +54,11 @@ else
         break;
         }
 }
+
+echo "<a href=?control=START_AUTOEXPLORE>START AUTOEXPLORE</a><br>";
+echo "<a href=?control=STOP_AUTOEXPLORE>STOP AUTOEXPLORE</a>";
 ?>
 <br>
-echo "<a href=?control=START_AUTOEXPLORE>START AUTOEXPLORE</a>";
-echo "<a href=?control=STOP_AUTOEXPLORE>STOP AUTOEXPLORE</a>";
-
 <br><Br>
 <a href=index.php>refresh</a>
 </center>
