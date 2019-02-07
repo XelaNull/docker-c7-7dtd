@@ -37,7 +37,18 @@ rm -rf Data/Config/rwgmixer.xml && cp COMPOPACK_35\(for\ Alpha17exp_b233\)/data/
 # CSMM Map Addon
 wget -O map.js "https://confluence.catalysm.net/download/attachments/1114446/map.js?version=1&modificationDate=1548000113141&api=v2&download=true" && \
 mv map.js $INSTALL_DIR/Mods/Allocs_WebAndMapRendering/webserver/js
-#rm -rf 7dtd-ServerTools-12.7.zip; wget https://github.com/dmustanger/7dtd-ServerTools/releases/download/12.7/7dtd-ServerTools-12.7.zip
+
+#ServerTools
+rm -rf 7dtd-ServerTools-12.7.zip; cd $INSTALL_DIR && \
+wget https://github.com/dmustanger/7dtd-ServerTools/releases/download/12.7/7dtd-ServerTools-12.7.zip && \
+unzip 7dtd-ServerTools-12.7.zip
+# Sqllite3 Manual Compile/Fix for ServerTools 12.7
+yum install gcc-c++ -y
+cd $INSTALL_DIR && mkdir sqllite3 && cd sqllite3 && \
+wget https://system.data.sqlite.org/downloads/1.0.109.0/sqlite-netFx-full-source-1.0.109.0.zip && \
+unzip sqlite-netFx-full-source-*.zip && \
+cd Setup && chmod a+x compile-interop-assembly-release.sh && ./compile-interop-assembly-release.sh && \
+cp ../bin/2013/Release/bin/* $INSTALL_DIR/7DaysToDieServer_Data/Mono/x86_64
 
 # Just Survive + Better RWG
 # Getting Warnings regarding trader wilderness settings in rwgmixer, when combined with COMPOPACK
