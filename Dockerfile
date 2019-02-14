@@ -7,7 +7,7 @@ ENV TIMEZONE="America/New_York" \
 
 # Install daemon packages# Install base packages
 RUN yum -y install epel-release && yum -y install supervisor syslog-ng cronie \
-    python wget net-tools rsync sudo git logrotate which mlocate && \
+    python wget net-tools rsync sudo git logrotate which mlocate gcc-c++ && \
 # Configure Syslog-NG for use in a Docker container
     sed -i 's|system();|unix-stream("/dev/log");|g' /etc/syslog-ng/syslog-ng.conf
 
@@ -85,13 +85,8 @@ RUN sed -i 's|User apache|User steam|g' /etc/httpd/conf/httpd.conf && \
     echo $'Alias "/7dtd" "/data/7DTD/html"\n<Directory "/data/7DTD">\n\tRequire all granted\n\tOptions all\n\tAllowOverride all\n</Directory>\n' > /etc/httpd/conf.d/7dtd.conf
 
 COPY install_7dtd.sh /install_7dtd.sh
-COPY 7dtd-APPLY-CONFIG.sh /7dtd-APPLY-CONFIG.sh
 COPY replace.sh /replace.sh
-COPY index.php /index.php
 COPY 7dtd-daemon.php /7dtd-daemon.php
-COPY COMPOPACK_35.zip /COMPOPACK_35.zip
-COPY Red_Eagle_LXIXs_A17_Modlet_Collection.zip /Red_Eagle_LXIXs_A17_Modlet_Collection.zip
-COPY VanillaPlusModletCollection_1_2_Experimental.rar /VanillaPlusModletCollection_1_2_Experimental.rar
 
 # Ensure all packages are up-to-date, then fully clean out all cache
 RUN chmod a+x /*.sh /*.php && yum -y update && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
