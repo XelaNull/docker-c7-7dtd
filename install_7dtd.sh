@@ -27,7 +27,8 @@ sudo -u steam /home/steam/steamcmd.sh +login $STEAMCMD_LOGIN $STEAMCMD_PASSWORD 
 
 cd $INSTALL_DIR
 git clone https://github.com/XelaNull/7dtd-servermod.git
-cd 7dtd-servermod && cp index.php $INSTALL_DIR/html/
+cd 7dtd-servermod && chmod a+x install_mods.sh && \
+cp index.php $INSTALL_DIR/html/
 ./install_mods.sh $INSTALL_DIR
 
 chown steam:steam $INSTALL_DIR /home/steam -R
