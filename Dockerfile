@@ -75,7 +75,6 @@ RUN sed -i 's|User apache|User steam|g' /etc/httpd/conf/httpd.conf && \
     echo $'Alias "/7dtd" "/data/7DTD/html"\n<Directory "/data/7DTD">\n\tRequire all granted\n\tOptions all\n\tAllowOverride all\n</Directory>\n' > /etc/httpd/conf.d/7dtd.conf
 
 COPY install_7dtd.sh /install_7dtd.sh
-COPY replace.sh /replace.sh
 COPY 7dtd-daemon.php /7dtd-daemon.php
 
 # Ensure all packages are up-to-date, then fully clean out all cache
