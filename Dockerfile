@@ -90,5 +90,13 @@ RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
 RUN mkdir /data
 VOLUME ["/data"]
 
+EXPOSE "26900/udp"
+EXPOSE "26900/tcp"
+EXPOSE "26902/udp"
+EXPOSE "80/tcp"
+EXPOSE "8080/tcp"
+EXPOSE "8081/tcp"
+EXPOSE "8082/tcp"
+
 # Set to start the supervisor daemon on bootup
 ENTRYPOINT ["/start_supervisor.sh"]
