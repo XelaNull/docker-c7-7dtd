@@ -13,6 +13,7 @@ rm -rf $INSTALL_DIR
 
 # Set up the installation directory
 [[ ! -d $INSTALL_DIR/.local ]] && mkdir -p $INSTALL_DIR/.local; 
+[[ ! -d $INSTALL_DIR/Mods ]] && mkdir -p $INSTALL_DIR/Mods;
 chown steam:steam $INSTALL_DIR $INSTALL_DIR/.local /home/steam -R
 ln -s $INSTALL_DIR/.local /home/steam/.local
 
@@ -27,7 +28,7 @@ su steam -c "/home/steam/steamcmd.sh +login $STEAMCMD_LOGIN $STEAMCMD_PASSWORD \
   $beta $betapassword $validate +quit"
 
 cd $INSTALL_DIR; [[ -d $INSTALL_DIR/7dtd-servermod ]] && rm -rf 7dtd-servermod
-git clone https://github.com/XelaNull/7dtd-servermod.git
+git clone https://github.com/XelaNull/7dtd-servermod.git && \
 cd 7dtd-servermod && chmod a+x install_mods.sh && ./install_mods.sh $INSTALL_DIR
 
 chown steam:steam $INSTALL_DIR /home/steam -R
