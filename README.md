@@ -15,7 +15,7 @@ docker run -dt -v$(pwd)/data:/data \
   -e STEAMCMD_LOGIN=YOUR_STEAM_USERNAME \
   -e STEAMCMD_PASSWORD='YOUR_STEAM_PASSWORD' \
   -e STEAMCMD_APP_ID=294420 -e INSTALL_DIR="/data/7DTD" \
-  -e 7DTD_AUTOREVEAL_MAP=true \
+  -e 7DTD_AUTOREVEAL_MAP=true -e TELNET_PW="sanity" \
   --name=c7-7dtd c7/7dtd
 ```
 

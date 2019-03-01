@@ -2,12 +2,11 @@
 FROM centos:7
 # Set the local timezone
 ENV TIMEZONE="America/New_York" \
-    TELNET_PORT="8081" \
-    TELNET_PASSWORD="sanity"
-
+    TELNET_PORT="8081" 
+    
 # Install daemon packages# Install base packages
 RUN yum -y install epel-release && yum -y install supervisor syslog-ng cronie \
-    python wget net-tools rsync sudo git logrotate which mlocate gcc-c++ && \
+    python wget net-tools rsync sudo git logrotate which mlocate gcc-c++ p7zip p7zip-plugins sqlite3 && \
 # Configure Syslog-NG for use in a Docker container
     sed -i 's|system();|unix-stream("/dev/log");|g' /etc/syslog-ng/syslog-ng.conf
 
@@ -26,7 +25,7 @@ done\n' > /start_mysqld.sh
 
 # Install Webtatic YUM REPO + Webtatic PHP7, # Install Apache & Webtatic mod_php support 
 RUN yum -y localinstall https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && \
-    yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-mysqli php72w-curl && \
+    yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-mysqli php72w-curl php72w-sqlite3 && \
     rm -rf /etc/httpd/conf.d/welcome.conf
     
 # rar, unrar
@@ -64,7 +63,7 @@ RUN printf 'echo "start" > /data/7DTD/server.expected_status\n' > /start_7dtd.sh
 RUN printf 'echo "stop" > /data/7DTD/server.expected_status\n' > /stop_7dtd.sh
 RUN echo $'#!/usr/bin/expect\nset timeout 5\nset command [lindex $argv 0]\n' > /7dtd-sendcmd.sh && \
     printf "spawn telnet 127.0.0.1 $TELNET_PORT\nexpect \"Please enter password:\"\n" >> /7dtd-sendcmd.sh && \
-    printf "send \"$TELNET_PASSWORD\\\r\"; sleep 1;\n" >> /7dtd-sendcmd.sh && \
+    printf "send \"\"$TELNET_PW\"\\\r\"; sleep 1;\n" >> /7dtd-sendcmd.sh && \
     printf 'send "$command\\r"\nsend "exit\\r";\nexpect eof;\n' >> /7dtd-sendcmd.sh && \
     printf 'send_user "Sent command to 7DTD: $command\\n"' >> /7dtd-sendcmd.sh
 
