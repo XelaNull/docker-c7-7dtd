@@ -3,7 +3,11 @@ FROM centos:7
 # Set the local timezone
 ENV TIMEZONE="America/New_York" \
     TELNET_PORT="8081" 
-    
+ARG TELNET_PW
+ENV TELNET_PW=$TELNET_PW
+ARG INSTALL_DIR
+ENV INSTALL_DIR=$INSTALL_DIR    
+  
 # Install daemon packages# Install base packages
 RUN yum -y install epel-release && yum -y install supervisor syslog-ng cronie \
     python wget net-tools rsync sudo git logrotate which mlocate gcc-c++ p7zip p7zip-plugins sqlite3 && \
