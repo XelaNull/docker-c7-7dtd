@@ -25,7 +25,7 @@ done\n' > /start_mysqld.sh
 
 # Install Webtatic YUM REPO + Webtatic PHP7, # Install Apache & Webtatic mod_php support 
 RUN yum -y localinstall https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && \
-    yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-mysqli php72w-curl php72w-sqlite3 && \
+    yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-mysqli php72w-curl php72w-sqlite3 php72w-gd && \
     rm -rf /etc/httpd/conf.d/welcome.conf
     
 # rar, unrar
