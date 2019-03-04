@@ -3,7 +3,10 @@ This project seeks to create a better 7DTD Gameserver platform that can be confi
 **TO BUILD**
 
 ```
-time docker build -t c7/7dtd .
+time docker build \
+--build-arg INSTALL_DIR="/data/7DTD" \
+--build-arg TELNET_PW="YOUR_TELNET_PASSWORD" \
+-t c7/7dtd .
 ```
 
 **TO RUN** First, create a Steam account specifically for your server. Use these credentials below.
@@ -15,7 +18,7 @@ docker run -dt -v$(pwd)/data:/data \
   -e STEAMCMD_LOGIN=YOUR_STEAM_USERNAME \
   -e STEAMCMD_PASSWORD='YOUR_STEAM_PASSWORD' \
   -e STEAMCMD_APP_ID=294420 -e INSTALL_DIR="/data/7DTD" \
-  -e 7DTD_AUTOREVEAL_MAP=true -e TELNET_PW="sanity" \
+  -e 7DTD_AUTOREVEAL_MAP=true \
   --name=c7-7dtd c7/7dtd
 ```
 
