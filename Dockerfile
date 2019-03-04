@@ -56,7 +56,7 @@ RUN yum -y install glibc.i686 libstdc++.i686 telnet expect unzip vim-enhanced &&
     tar zxf steamcmd_linux.tar.gz
 
 # 7DTD START/STOP/SENDCMD
-RUN echo $'#!/bin/sh\nexport INSTALL_DIR=/data/7DTD\nif [[ `ps awwux | grep -v grep | grep loop_start_7dtd | wc -l` > 2 ]]; then exit; fi\n' > /loop_start_7dtd.sh && \
+RUN echo $'#!/bin/sh\nexport INSTALL_DIR=/data/7DTD\ncd $INSTALL_DIR\nif [[ `ps awwux | grep -v grep | grep loop_start_7dtd | wc -l` > 2 ]]; then exit; fi\n' > /loop_start_7dtd.sh && \
     echo $'while true; do if [ -f /7dtd.initialized ]; then break; fi; sleep 6; done \n' >> /loop_start_7dtd.sh && \
     echo $'while true; do \nif [[ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]] && [[ `cat $INSTALL_DIR/server.expected_status` == "start" ]]; then \n' >> /loop_start_7dtd.sh && \
     echo $'SERVER_PID=`ps awwux | grep -v grep | grep 7DaysToDieServer.x86_64`; \n' >> /loop_start_7dtd.sh && \
@@ -70,6 +70,10 @@ RUN echo $'#!/usr/bin/expect\nset timeout 5\nset command [lindex $argv 0]\n' > /
     printf "send \"\"$TELNET_PW\"\\\r\"; sleep 1;\n" >> /7dtd-sendcmd.sh && \
     printf 'send "$command\\r"\nsend "exit\\r";\nexpect eof;\n' >> /7dtd-sendcmd.sh && \
     printf 'send_user "Sent command to 7DTD: $command\\n"' >> /7dtd-sendcmd.sh
+RUN printf '#!/usr/bin/php -q\n<?php\n' > /7dtd-sendcmd.php && \
+    printf '$ip=exec("/sbin/ifconfig | grep broad"); $ipParts=array_Filter(explode(" ", $ip)); $cnt=0;' >> /7dtd-sendcmd.php && \
+    printf 'foreach($ipParts as $part) { $cnt++; if($cnt==2) $ip=$part; }' >> /7dtd-sendcmd.php && \
+    printf 'echo file_get_contents("http://$ip:8082/api/executeconsolecommand?adminuser=admin&admintoken=adm1n&raw=true&command=$argv[1]"); ?>' >> /7dtd-sendcmd.php
 
 # Reconfigure Apache to run under steam username, to retain ability to modify steam's files
 RUN sed -i 's|User apache|User steam|g' /etc/httpd/conf/httpd.conf && \
