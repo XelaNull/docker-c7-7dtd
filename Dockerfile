@@ -78,6 +78,7 @@ RUN printf '#!/usr/bin/php -q\n<?php\n' > /7dtd-sendcmd.php && \
 # Reconfigure Apache to run under steam username, to retain ability to modify steam's files
 RUN sed -i 's|User apache|User steam|g' /etc/httpd/conf/httpd.conf && \
     sed -i 's|Group apache|Group steam|g' /etc/httpd/conf/httpd.conf && \
+    chown steam /var/lib/php -R && \
     chown steam:steam /var/www/html -R && \
     echo $'Alias "/7dtd" "/data/7DTD/html"\n<Directory "/data/7DTD">\n\tRequire all granted\n\tOptions all\n\tAllowOverride all\n</Directory>\n' > /etc/httpd/conf.d/7dtd.conf
 
