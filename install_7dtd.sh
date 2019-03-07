@@ -35,5 +35,5 @@ cd 7dtd-servermod && chmod a+x install_mods.sh && ./install_mods.sh $INSTALL_DIR
 chown steam:steam $INSTALL_DIR /home/steam -R
 #echo "Stopping 7DTD to kick off new world generation (if name changes)" && /stop_7dtd.sh
 echo "Completed Installation."; touch /7dtd.initialized; 
-$IPADDRESS=`/sbin/ifconfig | grep broad | awk '{print \$2}'`;
+IPADDRESS=`/sbin/ifconfig | grep broad | awk '{print \$2}'`;
 echo "Your server should now be accessible at: http://$IPADDRESS/7dtd"; exec "$@"
