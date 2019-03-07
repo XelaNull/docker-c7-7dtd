@@ -94,7 +94,7 @@ RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh 7dtd-daemon "/7dtd-daemon.php /data/7DTD" >> /etc/supervisord.conf
 
-RUN mkdir /data
+#RUN mkdir /data
 VOLUME ["/data"]
 
 # Set to start the supervisor daemon on bootup
