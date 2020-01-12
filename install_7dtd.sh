@@ -28,9 +28,9 @@ su steam -c "/home/steam/steamcmd.sh +login $STEAMCMD_LOGIN $STEAMCMD_PASSWORD \
   $beta $betapassword $validate +quit"
   
 # Install 7DTD ServerMod Manager & Download Mods
-#cd $INSTALL_DIR; [[ -d $INSTALL_DIR/7dtd-servermod ]] && rm -rf 7dtd-servermod
-#git clone https://github.com/XelaNull/7dtd-servermod.git && \
-#cd 7dtd-servermod && chmod a+x install_mods.sh && ./install_mods.sh $INSTALL_DIR
+cd $INSTALL_DIR; [[ -d $INSTALL_DIR/7dtd-servermod ]] && rm -rf 7dtd-servermod
+git clone https://github.com/XelaNull/7dtd-servermod.git && \
+cd 7dtd-servermod && chmod a+x install_mods.sh && ./install_mods.sh $INSTALL_DIR
 
 chown steam:steam $INSTALL_DIR /home/steam -R
 #echo "Stopping 7DTD to kick off new world generation (if name changes)" && /stop_7dtd.sh
