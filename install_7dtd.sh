@@ -28,7 +28,7 @@ su steam -c "/home/steam/steamcmd.sh +login $STEAMCMD_LOGIN $STEAMCMD_PASSWORD \
   $beta $betapassword $validate +quit"
   
 # Create 7DTD ServerMod Manager Installer
-echo 'cd $INSTALL_DIR; [[ -d $INSTALL_DIR/7dtd-servermod ]] && rm -rf 7dtd-servermod' > /install_servermodmgr.sh
+echo 'export INSTALL_DIR=/data/7DTD; cd $INSTALL_DIR; [[ -d $INSTALL_DIR/7dtd-servermod ]] && rm -rf 7dtd-servermod' > /install_servermodmgr.sh
 echo 'git clone https://github.com/XelaNull/7dtd-servermod.git && \' >> /install_servermodmgr.sh
 echo 'cd 7dtd-servermod && chmod a+x install_mods.sh && ./install_mods.sh $INSTALL_DIR' >> /install_servermodmgr.sh
 chmod a+x /install_servermodmgr.sh
