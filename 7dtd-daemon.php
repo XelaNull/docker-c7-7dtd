@@ -26,7 +26,7 @@ while (1) {
 
 # Set default on the three touch files, if they don't already exist 
 if(!is_file($INSTALL_DIR.'/server.expected_status')) { file_put_contents($INSTALL_DIR.'/server.expected_status','start'); chown($INSTALL_DIR.'/server.expected_status','steam'); }
-if(!is_file($INSTALL_DIR.'/auto-reveal.status')) { file_put_contents($INSTALL_DIR.'/auto-reveal.status','start'); chown($INSTALL_DIR.'/auto-reveal.status','steam'); }
+if(!is_file($INSTALL_DIR.'/auto-reveal.status')) { file_put_contents($INSTALL_DIR.'/auto-reveal.status','stop'); chown($INSTALL_DIR.'/auto-reveal.status','steam'); }
 if(!is_file($INSTALL_DIR.'/auto-reveal.character')) { file_put_contents($INSTALL_DIR.'/auto-reveal.character','first'); chown($INSTALL_DIR.'/auto-reveal.character','steam'); }
 
 
@@ -37,7 +37,7 @@ $autoreveal_character = trim(file_get_contents($INSTALL_DIR.'/auto-reveal.charac
 
 // If auto-reveal is installed, Switch for auto-reveal status
 if(is_file($INSTALL_DIR.'/7dtd-auto-reveal-map/7dtd-autoreveal-map.sh')) switch($autoreveal_status) 
-  { /*
+  { 
     // If value is start, we should run through procedure for starting it
     case "start":
       // Make sure that it isnt already running
@@ -74,7 +74,7 @@ if(is_file($INSTALL_DIR.'/7dtd-auto-reveal-map/7dtd-autoreveal-map.sh')) switch(
           // Start the auto-reveal script
           exec("$INSTALL_DIR/7dtd-auto-reveal-map/7dtd-autoreveal-map.sh $TELNETPORT \"$TELNETPASSWORD\" \"$autoreveal_character\" $STARTING_COORD $ENDING_COORD");
         }
-    break;*/
+    break;
     
     // If value is stop, we should run through procedure for stopping it
     case "stop":
