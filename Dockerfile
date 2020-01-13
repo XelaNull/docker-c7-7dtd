@@ -6,7 +6,8 @@ ENV TIMEZONE="America/New_York" \
 ARG TELNET_PW
 ENV TELNET_PW=$TELNET_PW
 ARG INSTALL_DIR
-ENV INSTALL_DIR=$INSTALL_DIR    
+ENV INSTALL_DIR=$INSTALL_DIR
+ENV WEB_PORT=8000    
   
 # Install daemon packages# Install base packages
 RUN yum -y install epel-release && yum -y install supervisor syslog-ng cronie \
@@ -31,6 +32,9 @@ done\n' > /start_mysqld.sh
 RUN yum -y localinstall https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && \
     yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-mysqli php72w-curl php72w-sqlite3 php72w-gd && \
     rm -rf /etc/httpd/conf.d/welcome.conf
+
+# Set the Apache WEB_PORT
+RUN sed -i "s/Listen 80/Listen $WEB_PORT/g" /etc/httpd/conf/httpd.conf
     
 # rar, unrar
 RUN wget https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/
