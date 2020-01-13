@@ -11,7 +11,7 @@ ENV WEB_PORT=8000
   
 # Install daemon packages# Install base packages
 RUN yum -y install epel-release && yum -y install supervisor syslog-ng cronie \
-    python wget net-tools rsync sudo git logrotate which mlocate gcc-c++ p7zip p7zip-plugins sqlite3 && \
+    python wget net-tools rsync sudo git logrotate which mlocate gcc-c++ p7zip p7zip-plugins sqlite3 sysvinit-tools && \
 # Configure Syslog-NG for use in a Docker container
     sed -i 's|system();|unix-stream("/dev/log");|g' /etc/syslog-ng/syslog-ng.conf
 
