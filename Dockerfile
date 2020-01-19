@@ -71,7 +71,7 @@ RUN printf 'echo "start" > /data/7DTD/server.expected_status\n' > /start_7dtd.sh
 RUN printf 'echo "stop" > /data/7DTD/server.expected_status\n' > /stop_7dtd.sh
 RUN echo $'#!/usr/bin/expect\nset timeout 5\nset command [lindex $argv 0]\n' > /7dtd-sendcmd.sh && \
     printf "spawn telnet 127.0.0.1 $TELNET_PORT\nexpect \"Please enter password:\"\n" >> /7dtd-sendcmd.sh && \
-    printf "send \"\"$TELNET_PW\"\\\r\"; sleep 1;\n" >> /7dtd-sendcmd.sh && \
+    printf "send \"$TELNET_PW\\\r\"; sleep 1;\n" >> /7dtd-sendcmd.sh && \
     printf 'send "$command\\r"\nsend "exit\\r";\nexpect eof;\n' >> /7dtd-sendcmd.sh && \
     printf 'send_user "Sent command to 7DTD: $command\\n"' >> /7dtd-sendcmd.sh
 RUN printf '#!/usr/bin/php -q\n<?php\n' > /7dtd-sendcmd.php && \
