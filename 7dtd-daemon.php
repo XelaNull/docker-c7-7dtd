@@ -109,6 +109,7 @@ if(is_file($INSTALL_DIR.'/7DaysToDieServer.x86_64')) switch($server_expected_sta
     // send the two commands needed to save the world and shutdown the server
     exec("/7dtd-sendcmd.sh \"saveworld\"");
     exec("/7dtd-sendcmd.sh \"shutdown\"");
+    exec("rm -rf /data/7DTD/core.*")
     
     // If we are restarting, we should set the touch file to start on next iteration, then sleep to give server a chance to shutdown
     if($server_exected_status=='restart')
