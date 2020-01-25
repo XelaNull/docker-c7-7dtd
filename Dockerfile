@@ -7,7 +7,7 @@ ARG TELNET_PW
 ENV TELNET_PW=$TELNET_PW
 ARG INSTALL_DIR
 ENV INSTALL_DIR=$INSTALL_DIR
-ENV WEB_PORT=8000    
+ENV WEB_PORT=80    
   
 # Install daemon packages# Install base packages
 RUN yum -y install epel-release && yum -y install supervisor syslog-ng cronie \
