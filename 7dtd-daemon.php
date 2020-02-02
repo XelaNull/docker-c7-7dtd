@@ -108,6 +108,7 @@ if(is_file($INSTALL_DIR.'/7DaysToDieServer.x86_64')) switch($server_expected_sta
     
     // send the two commands needed to save the world and shutdown the server
     exec("/7dtd-sendcmd.sh \"saveworld\"");
+    sleep(5);
     exec("/7dtd-sendcmd.sh \"shutdown\"");
     exec("rm -rf /data/7DTD/core.*");
     
