@@ -62,6 +62,7 @@ RUN yum -y install glibc.i686 libstdc++.i686 telnet expect unzip vim-enhanced &&
 # 7DTD START/STOP/SENDCMD
 RUN echo $'#!/bin/sh\nexport INSTALL_DIR=/data/7DTD\nexport LD_LIBRARY_PATH=.\ncd $INSTALL_DIR\nif [[ `ps awwux | grep -v grep | grep loop_start_7dtd | wc -l` > 2 ]]; then exit; fi\n' > /loop_start_7dtd.sh && \
     echo $'while true; do if [ -f /7dtd.initialized ]; then break; fi; sleep 6; done \n' >> /loop_start_7dtd.sh && \
+    echo $'rm -rf $INSTALL_DIR/core.*;' >> /loop_start_7dtd.sh && \
     echo $'while true; do \nif [[ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]] && [[ `cat $INSTALL_DIR/server.expected_status` == "start" ]]; then \n' >> /loop_start_7dtd.sh && \
     echo $'SERVER_PID=`ps awwux | grep -v grep | grep 7DaysToDieServer.x86_64`; \n' >> /loop_start_7dtd.sh && \
     echo $'[[ -z $SERVER_PID ]] && $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated; \n' >> /loop_start_7dtd.sh && \
