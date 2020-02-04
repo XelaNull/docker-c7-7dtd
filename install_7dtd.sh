@@ -26,6 +26,7 @@ echo "Starting Steam to perform application install"
 su steam -c "/home/steam/steamcmd.sh +login $STEAMCMD_LOGIN $STEAMCMD_PASSWORD \
   +force_install_dir $INSTALL_DIR +app_update $STEAMCMD_APP_ID \
   $beta $betapassword $validate +quit"
+touch /7dtd.initialized;   
   
 # Create 7DTD ServerMod Manager Installer
 echo '#!/bin/bash' > /install_servermodmgr.sh
@@ -37,6 +38,6 @@ chmod a+x /install_servermodmgr.sh
 
 chown steam:steam $INSTALL_DIR /home/steam -R
 #echo "Stopping 7DTD to kick off new world generation (if name changes)" && /stop_7dtd.sh
-echo "Completed Installation."; touch /7dtd.initialized; 
+echo "Completed Installation."; 
 IPADDRESS=`/sbin/ifconfig | grep broad | awk '{print \$2}'`;
 echo "Your server should now be accessible at: http://$IPADDRESS/7dtd"; exec "$@"
