@@ -10,28 +10,33 @@ ENV INSTALL_DIR=$INSTALL_DIR
 ENV WEB_PORT=80    
   
 # Install daemon packages# Install base packages
-RUN yum -y install epel-release && yum -y install supervisor syslog-ng cronie \
-    python wget net-tools rsync sudo git logrotate which mlocate gcc-c++ p7zip p7zip-plugins sqlite3 sysvinit-tools svn && \
+RUN yum -y install epel-release && yum -y install supervisor vim-enhanced glibc.i686 libstdc++.i686 telnet expect unzip \
+    python wget net-tools rsync sudo git logrotate which mlocate gcc-c++ p7zip p7zip-plugins sqlite3 sysvinit-tools svn cronie
+    
+#    yum -y install ImageMagick ImageMagick-devel ImageMagick-perl && \
+
+#RUN yum -y install syslog-ng && \
 # Configure Syslog-NG for use in a Docker container
-    sed -i 's|system();|unix-stream("/dev/log");|g' /etc/syslog-ng/syslog-ng.conf
+#    sed -i 's|system();|unix-stream("/dev/log");|g' /etc/syslog-ng/syslog-ng.conf
 
 # Install newest stable MariaDB: 10.3 
-RUN printf '[mariadb]\nname = MariaDB\nbaseurl = http://yum.mariadb.org/10.3/centos7-amd64\n\
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB\ngpgcheck=1' > /etc/yum.repos.d/MariaDB-10.3.repo && \
-    yum -y install MariaDB-server MariaDB-client
+#RUN printf '[mariadb]\nname = MariaDB\nbaseurl = http://yum.mariadb.org/10.3/centos7-amd64\n\
+#gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB\ngpgcheck=1' > /etc/yum.repos.d/MariaDB-10.3.repo && \
+#    yum -y install MariaDB-server MariaDB-client
 # Create MySQL Start Script
-RUN echo $'#!/bin/bash\n\
-[[ `pidof /usr/sbin/mysqld` == "" ]] && /usr/bin/mysqld_safe &\n\
-sleep 5\nexport SQL_TO_LOAD="/mysql_load_on_first_boot.sql"\n\
-while true; do\n\
-  if [[ -e "$SQL_TO_LOAD" ]]; then /usr/bin/mysql -u root --password=\'\' < $SQL_TO_LOAD && mv $SQL_TO_LOAD $SQL_TO_LOAD.loaded; fi\n\
-  sleep 10\n\
-done\n' > /start_mysqld.sh   
+#RUN echo $'#!/bin/bash\n\
+#[[ `pidof /usr/sbin/mysqld` == "" ]] && /usr/bin/mysqld_safe &\n\
+#sleep 5\nexport SQL_TO_LOAD="/mysql_load_on_first_boot.sql"\n\
+#while true; do\n\
+#  if [[ -e "$SQL_TO_LOAD" ]]; then /usr/bin/mysql -u root --password=\'\' < $SQL_TO_LOAD && mv $SQL_TO_LOAD $SQL_TO_LOAD.loaded; fi\n\
+#  sleep 10\n\
+#done\n' > /start_mysqld.sh   
 
 # Install Webtatic YUM REPO + Webtatic PHP7, # Install Apache & Webtatic mod_php support 
 RUN yum -y localinstall https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && \
-    yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-mysqli php72w-curl php72w-sqlite3 php72w-gd && \
+    yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-curl php72w-sqlite3 php72w-gd && \
     rm -rf /etc/httpd/conf.d/welcome.conf
+#RUN yum -y php72w-mysqli
 
 # Set the Apache WEB_PORT
 RUN sed -i "s/Listen 80/Listen $WEB_PORT/g" /etc/httpd/conf/httpd.conf
@@ -46,7 +51,7 @@ RUN printf '[supervisord]\nnodaemon=true\nuser=root\nlogfile=/var/log/supervisor
 # Create start_supervisor.sh script
     printf '#!/bin/bash\n/usr/bin/supervisord -c /etc/supervisord.conf' > /start_supervisor.sh && \
 # Create syslog-ng start script    
-    printf '#!/bin/bash\n/usr/sbin/syslog-ng --no-caps -F -p /var/run/syslogd.pid' > /start_syslog-ng.sh && \
+#    printf '#!/bin/bash\n/usr/sbin/syslog-ng --no-caps -F -p /var/run/syslogd.pid' > /start_syslog-ng.sh && \
 # Create Cron start script    
     printf '#!/bin/bash\n/usr/sbin/crond -n\n' > /start_crond.sh && \
 # Create script to add more supervisor boot-time entries
@@ -55,8 +60,7 @@ echo "autostart     = true";\necho "autorestart   = false";\necho "directory    
 echo "command       = $2";\necho "startsecs     = 3";\necho "priority      = 1";\n\n' > /gen_sup.sh
 
 # STEAMCMD
-RUN yum -y install glibc.i686 libstdc++.i686 telnet expect unzip vim-enhanced && useradd steam && cd /home/steam && \
-    wget http://media.steampowered.com/installer/steamcmd_linux.tar.gz && \
+RUN useradd steam && cd /home/steam && wget http://media.steampowered.com/installer/steamcmd_linux.tar.gz && \
     tar zxf steamcmd_linux.tar.gz
 
 # 7DTD START/STOP/SENDCMD
@@ -91,16 +95,15 @@ COPY install_7dtd.sh /install_7dtd.sh
 COPY 7dtd-daemon.php /7dtd-daemon.php
 
 # Ensure all packages are up-to-date, then fully clean out all cache
-RUN chmod a+x /*.sh /*.php && yum -y update && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
+RUN chmod a+x /*.sh /*.php && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
 
 # Create different supervisor entries
-RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
-    /gen_sup.sh mysqld "/start_mysqld.sh" >> /etc/supervisord.conf && \
-    /gen_sup.sh crond "/start_crond.sh" >> /etc/supervisord.conf && \
-    /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
-    /gen_sup.sh 7dtd-daemon "/7dtd-daemon.php /data/7DTD" >> /etc/supervisord.conf
+#RUN /gen_sup.sh syslog-ng "/start_syslog-ng.sh" >> /etc/supervisord.conf && \
+RUN /gen_sup.sh crond "/start_crond.sh" >> /etc/supervisord.conf && \
+/gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
+/gen_sup.sh 7dtd-daemon "/7dtd-daemon.php /data/7DTD" >> /etc/supervisord.conf
+#    /gen_sup.sh mysqld "/start_mysqld.sh" >> /etc/supervisord.conf && \
 
-#RUN mkdir /data
 VOLUME ["/data"]
 
 # Set to start the supervisor daemon on bootup
